@@ -1,0 +1,41 @@
+{
+  "name": "mix/mix-cli",
+  "description": "MixPHP 系统命令开发 http://www.mixphp.cn",
+  "type": "project",
+  "keywords": [
+    "framework",
+    "mixphp",
+    "swoole"
+  ],
+  "homepage": "http://www.mixphp.cn/",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "liu,jian",
+      "email": "coder.keda@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0",
+    "mix/framework": "~2.0",
+    "mix/console": "~2.0",
+    "mix/log": "~2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Cli\\": "src/"
+    },
+    "classmap": [
+      "src/ApplicationInterface.php"
+    ],
+    "files": [
+      "src/functions.php"
+    ]
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.laravel-china.org"
+    }
+  }
+}
