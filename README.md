@@ -5,7 +5,7 @@
 
 ## 下载
 
-- v1.0.1
+- [v1.0.1](https://github.com/mix-php/mix-inotifycmd/releases/download/v1.0.1/mix-inotifycmd.phar)
 
 ## 使用
 

@@ -4,13 +4,13 @@
 return [
 
     // 应用名称
-    'appName'          => 'mix-inotify',
+    'appName'          => 'mix-inotifycmd',
 
     // 应用版本
     'appVersion'       => '1.0.1',
 
     // 应用调试
-    'appDebug'         => true,
+    'appDebug'         => false,
 
     // 基础路径
     'basePath'         => str_replace(['phar://', '/'], ['', DIRECTORY_SEPARATOR], dirname(dirname(__DIR__))),
