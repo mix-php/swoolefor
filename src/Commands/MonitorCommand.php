@@ -76,10 +76,6 @@ class MonitorCommand
             }
         }
         // 读取变化
-        $read   = [$notify];
-        $write  = null;
-        $except = null;
-        stream_select($read, $write, $except, 0);
         stream_set_blocking($notify, 0);
         while (true) {
             $files = inotify_read($notify);
