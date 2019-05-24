@@ -10,7 +10,7 @@
 ## 使用
 
 ```
-php mix-autorestart.phar monitor --dir=/data --cmd="php /data/bin/mix-httpd restart -c /data/applications/http/config/httpd.php > /dev/null &"
+php mix-inotifycmd.phar monitor --dir=/data --cmd="php /data/bin/mix-httpd restart -c /data/applications/http/config/httpd.php > /dev/null &"
 ```
 
 注意：命令后面必须要加 **'&'** 让命令不阻塞监控程序的执行
