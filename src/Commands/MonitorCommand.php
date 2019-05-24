@@ -99,7 +99,8 @@ class MonitorCommand
                 exec($this->cmd);
             }
             if ($dirChange) {
-                app()->log->info("monitored directory changes, restart monitor");
+                app()->log->info("monitored directory changes, execute restart command [{$this->cmd}], restart monitor");
+                exec($this->cmd);
                 return $this->run();
             }
             sleep($this->interval);
