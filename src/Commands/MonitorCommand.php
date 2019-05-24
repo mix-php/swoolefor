@@ -24,6 +24,11 @@ class MonitorCommand
     public $cmd;
 
     /**
+     * @var int
+     */
+    public $interval = 1;
+
+    /**
      * 主函数
      */
     public function main()
@@ -79,7 +84,7 @@ class MonitorCommand
         while (true) {
             $files = inotify_read($notify);
             if (!$files) {
-                sleep(1);
+                sleep($this->interval);
                 continue;
             }
             $fileChange = false;
@@ -94,14 +99,14 @@ class MonitorCommand
                 }
             }
             if ($fileChange) {
-                app()->log->info("Monitored file changes, execute restart command [{$this->cmd}]");
+                app()->log->info("monitored file changes, execute restart command [{$this->cmd}]");
                 exec($this->cmd);
             }
             if ($dirChange) {
-                app()->log->info("Monitored directory changes, restart monitor");
+                app()->log->info("monitored directory changes, restart monitor");
                 return $this->run();
             }
-            sleep(1);
+            sleep($this->interval);
         }
         return true;
     }
