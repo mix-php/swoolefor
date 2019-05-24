@@ -30,7 +30,7 @@ return [
             'options'     => [
                 [['d', 'daemon'], 'description' => 'Run in the background'],
                 ['dir', 'description' => 'File directory path to monitor code changes'],
-                ['pidfile', 'description' => "Automatically restart the server pid file path"],
+                ['cmd', 'description' => "Command to automatically restart the server"],
             ],
         ],
 
