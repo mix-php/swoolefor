@@ -24,12 +24,13 @@ return [
     // 命令
     'commands'         => [
 
-        'hl' => [
-            'Hello',
-            'description' => "Demo.",
+        'monitor' => [
+            'Monitor',
+            'description' => "Monitor code changes and automatically restart the server",
             'options'     => [
-                [['n', 'name'], 'description' => 'Your name.'],
-                ['say', 'description' => "\tSay ..."],
+                [['d', 'daemon'], 'description' => 'Run in the background'],
+                ['dir', 'description' => 'File directory path to monitor code changes'],
+                ['pidfile', 'description' => "Automatically restart the server pid file path"],
             ],
         ],
 
