@@ -55,7 +55,11 @@ class MonitorCommand
         }
         // 赋值
         $this->directory = $directory;
-        $this->cmd       = $cmd;
+        $this->cmd       = trim($cmd);
+        // 命令不阻塞处理
+        if (substr($this->cmd, -1, 1) != '&') {
+            $this->cmd = "{$this->cmd} &";
+        }
         // 执行
         $this->run();
     }
