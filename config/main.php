@@ -7,7 +7,7 @@ return [
     'appName'          => 'mix-inotifycmd',
 
     // 应用版本
-    'appVersion'       => '1.0.1',
+    'appVersion'       => '1.0.2',
 
     // 应用调试
     'appDebug'         => false,
@@ -29,8 +29,8 @@ return [
             'description' => "Monitor code changes and automatically restart the server",
             'options'     => [
                 [['d', 'daemon'], 'description' => 'Run in the background'],
-                ['dir', 'description' => 'File directory path to monitor code changes'],
-                ['cmd', 'description' => "Command to automatically restart the server"],
+                ['dir', 'description' => "\tFile directory path to monitor code changes"],
+                ['cmd', 'description' => "\tCommand to automatically restart the server"],
             ],
         ],
 
