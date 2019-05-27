@@ -58,7 +58,7 @@ class MonitorCommand
         $this->cmd       = trim($cmd);
         // 命令不阻塞处理
         if (substr($this->cmd, -1, 1) != '&') {
-            $this->cmd = "{$this->cmd} &";
+            $this->cmd = "{$this->cmd} >/dev/null 2>&1 &";
         }
         // 执行
         $this->run();
