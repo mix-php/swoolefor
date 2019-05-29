@@ -2,6 +2,9 @@
 
 监控文件系统变化，通过设置的命令自动重启服务器，可用于修改代码后自动重启各种 Swoole 常驻服务器 (仅限开发阶段使用)
 
+## 依赖
+
+- [inotify](http://pecl.php.net/package/inotify)
 
 ## 下载
 
