@@ -4,7 +4,7 @@
 
 ## 依赖
 
-- [inotify](http://pecl.php.net/package/inotify)
+- [ext-inotify](http://pecl.php.net/package/inotify)
 
 ## 下载
 
