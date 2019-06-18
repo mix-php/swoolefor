@@ -74,6 +74,11 @@ php swoolefor.phar run -c "php /data/bin/easyswoole start"
 php swoolefor.phar run -c "php /data/bin/mix-httpd start -c /data/applications/http/config/httpd.php"
 ```
 
+- laravel-s
+
+```
+php swoolefor.phar run -c "php /data/bin/laravels start"
+```
 
 ## License
 
