@@ -11,7 +11,7 @@ Monitor for any changes in your swoole application and automatically restart the
 
 ## 下载 (Download)
 
-- [swoolefor v1.0.1](https://github.com/mix-php/swoolefor/releases/download/v1.0.1/swoolefor.phar)
+- [swoolefor.phar v1.0.1](https://github.com/mix-php/swoolefor/releases/download/v1.0.1/swoolefor.phar)
 
 ## 使用 (Usage)
 
@@ -49,10 +49,10 @@ php swoolefor.phar run --help
 
 - `-c, --cmd` Swoole application or other script start command
 - `-d, --daemon` Run in the background
-- `--watch-dir` Watch code file directory
-- `--interval` File change processing interval (seconds)
-- `--stop-signal` Program kill signal
-- `--stop-wait` Force kill timeout (seconds)
+- `--watch-dir` Watch code file directory, The default is script command directory (upper level of 'bin')
+- `--interval` File change processing interval (seconds), The default is 3s
+- `--stop-signal` Program kill signal, The default is SIGTERM
+- `--stop-wait` Force kill timeout (seconds), The default is 5s
 
 支持全部流行的 Swoole 框架：
 
