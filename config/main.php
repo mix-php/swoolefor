@@ -31,7 +31,7 @@ return [
                 [['c', 'cmd'], 'description' => 'Swoole application or other script start command'],
                 [['d', 'daemon'], 'description' => 'Run in the background'],
                 ['watch-dir', 'description' => "Watch code file directory"],
-                ['interval', 'description' => "File change scan interval (seconds)"],
+                ['interval', 'description' => "File change processing interval (seconds)"],
                 ['stop-signal', 'description' => "Program kill signal"],
                 ['stop-wait', 'description' => "Force kill timeout (seconds)"],
             ],

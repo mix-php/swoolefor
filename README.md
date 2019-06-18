@@ -1,61 +1,65 @@
-## Mix InotifyCMD
+## SwooleFor
 
-监控文件系统变化，通过设置的命令自动重启服务器，可用于修改代码后自动重启各种 Swoole 常驻服务器 (仅限开发阶段使用)
+监控你的 Swoole 程序文件变化并自动重启服务器 - 适用于开发
 
-## 依赖
+Monitor for any changes in your swoole application and automatically restart the server - perfect for development 
 
+## 依赖 (Extension)
+
+- [ext-swoole >= v4.4](https://github.com/swoole/swoole-src/)
 - [ext-inotify](http://pecl.php.net/package/inotify)
 
-## 下载
+## 下载 (Download)
 
-- [mix-inotifycmd v1.0.2](https://github.com/mix-php/mix-inotifycmd/releases/download/v1.0.2/mix-inotifycmd.phar)
-- [mix-inotifycmd v1.0.1](https://github.com/mix-php/mix-inotifycmd/releases/download/v1.0.1/mix-inotifycmd.phar)
+- [swoolefor v1.0.1](https://github.com/mix-php/swoolefor/releases/download/v1.0.1/swoolefor.phar)
 
-## 使用
+## 使用 (Usage)
 
-查看帮助
-
-```
-C:\works\projects>php mix-inotifycmd.phar
-Usage: mix-inotifycmd.phar [OPTIONS] COMMAND [SUBCOMMAND] [arg...]
-
-Options:
-  -h, --help    Print usage.
-  -v, --version Print version information.
-
-Commands:
-  monitor       Monitor code changes and automatically restart the server
-
-Run 'bootstrap.php COMMAND [SUBCOMMAND] --help' for more information on a command.
-
-Developed with Mix PHP framework. (mixphp.cn)
-```
-
-查看 `monitor` 命令的帮助
+执行命令：
 
 ```
-C:\works\projects>php mix-inotifycmd.phar monitor -h
-Usage: mix-inotifycmd.phar monitor [arg...]
-
-Options:
-  -d, --daemon  Run in the background
-  --dir         File directory path to monitor code changes
-  --cmd         Command to automatically restart the server
-
-Developed with Mix PHP framework. (mixphp.cn)
+php swoolefor.phar run -c "php script.php arg..."
 ```
 
-前台启动：
+如果 `disable_functions` 禁用了 `proc_open` 方法，按如下方法执行：
 
 ```
-php mix-inotifycmd.phar monitor --dir=/data --cmd="php /data/bin/mix-httpd restart -c /data/applications/http/config/httpd.php"
+php -d disable_functions='' swoolefor.phar run -c "php script.php arg..."
 ```
 
-也可以后台启动：
+启动成功：
 
 ```
-php mix-inotifycmd.phar monitor --dir=/data --cmd="php /data/bin/mix-httpd restart -c /data/applications/http/config/httpd.php" -d
+   _____                     __     ______          
+  / ___/      ______  ____  / /__  / ____/___  _____
+  \__ \ | /| / / __ \/ __ \/ / _ \/ /_  / __ \/ ___/
+ ___/ / |/ |/ / /_/ / /_/ / /  __/ __/ / /_/ / /    
+/____/|__/|__/\____/\____/_/\___/_/    \____/_/  Version: 1.0.1
+
+[info] 2019-06-18 17:34:32 <25699> [message] fork process, pid: 25700, cmd: [php /data/bin/mix-httpd start -c /data/applications/http/config/httpd.php]
+[info] 2019-06-18 17:34:32 <25699> [message] watch directory: /data
+[info] 2019-06-18 17:34:32 <25699> [message] processing interval: 3s
 ```
+
+全部命令参数：
+
+```
+php swoolefor.phar run --help
+```
+
+- `-c, --cmd` Swoole application or other script start command
+- `-d, --daemon` Run in the background
+- `--watch-dir` Watch code file directory
+- `--interval` File change processing interval (seconds)
+- `--stop-signal` Program kill signal
+- `--stop-wait` Force kill timeout (seconds)
+
+支持全部流行的 Swoole 框架：
+
+- Swoft: `php swoolefor.phar run -c "php bin/swoft http:start"`
+- EasySwoole: `php swoolefor.phar run -c "php easyswoole start"`
+- MixPHP: `php swoolefor.phar run -c "php /data/bin/mix-httpd start -c /data/applications/http/config/httpd.php"`
+
 
 ## License
 
