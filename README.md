@@ -56,6 +56,12 @@ php swoolefor.phar run --help
 
 支持全部流行的 Swoole 框架：
 
+- MixPHP: 
+
+```
+php swoolefor.phar run -c "php /data/bin/mix-httpd start -c /data/applications/http/config/httpd.php"
+```
+
 - Swoft:
 
 ```
@@ -66,12 +72,6 @@ php swoolefor.phar run -c "php /data/bin/swoft http:start"
 
 ```
 php swoolefor.phar run -c "php /data/bin/easyswoole start"
-```
-
-- MixPHP: 
-
-```
-php swoolefor.phar run -c "php /data/bin/mix-httpd start -c /data/applications/http/config/httpd.php"
 ```
 
 - laravel-s
