@@ -4,10 +4,10 @@
 return [
 
     // 应用名称
-    'appName'          => 'mix-inotifycmd',
+    'appName'          => 'swoole-dev',
 
     // 应用版本
-    'appVersion'       => '1.0.2',
+    'appVersion'       => '1.0.1',
 
     // 应用调试
     'appDebug'         => false,
@@ -24,13 +24,14 @@ return [
     // 命令
     'commands'         => [
 
-        'monitor' => [
-            'Monitor',
-            'description' => "Monitor code changes and automatically restart the server",
+        'run' => [
+            'Run',
+            'description' => "\tRun your swoole application",
             'options'     => [
+                ['cmd', 'description' => "\tSwoole application start command"],
                 [['d', 'daemon'], 'description' => 'Run in the background'],
-                ['dir', 'description' => "\tFile directory path to monitor code changes"],
-                ['cmd', 'description' => "\tCommand to automatically restart the server"],
+                ['interval', 'description' => "File change scan interval (seconds)"],
+                ['kill-wait', 'description' => "Force kill timeout (seconds)"],
             ],
         ],
 
