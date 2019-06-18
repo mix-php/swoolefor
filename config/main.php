@@ -4,7 +4,7 @@
 return [
 
     // 应用名称
-    'appName'          => 'swoole-dev',
+    'appName'          => 'swoolefor',
 
     // 应用版本
     'appVersion'       => '1.0.1',

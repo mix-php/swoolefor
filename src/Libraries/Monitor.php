@@ -6,10 +6,10 @@ use Mix\Core\Bean\AbstractObject;
 use Mix\Log\Logger;
 
 /**
- * Class Watcher
+ * Class Monitor
  * @package Cli\Libraries
  */
-class Watcher extends AbstractObject
+class Monitor extends AbstractObject
 {
 
     /**

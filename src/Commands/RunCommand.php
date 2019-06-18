@@ -3,7 +3,7 @@
 namespace Cli\Commands;
 
 use Cli\Libraries\Executor;
-use Cli\Libraries\Watcher;
+use Cli\Libraries\Monitor;
 use Cli\Models\RunForm;
 use Mix\Console\CommandLine\Flag;
 use Mix\Core\Coroutine;
@@ -72,16 +72,16 @@ class RunCommand
                 'stopWait'   => $model->stopWait,
             ]);
             $executor->start();
-            // 启动观察器
-            $watcher = new Watcher([
-                'dir'      => Watcher::dir($model->cmd),
+            // 启动监控器
+            $monitor = new Monitor([
+                'dir'      => Monitor::dir($model->cmd),
                 'interval' => $model->interval,
                 'executor' => $executor,
             ]);
-            $watcher->start();
+            $monitor->start();
             // 监听退出
             $quit->pop();
-            $watcher->stop();
+            $monitor->stop();
             $executor->stop();
         });
         Event::wait();
