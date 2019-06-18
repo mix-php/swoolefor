@@ -56,8 +56,8 @@ php swoolefor.phar run --help
 
 支持全部流行的 Swoole 框架：
 
-- Swoft: `php swoolefor.phar run -c "php bin/swoft http:start"`
-- EasySwoole: `php swoolefor.phar run -c "php easyswoole start"`
+- Swoft: `php swoolefor.phar run -c "php /data/bin/swoft http:start"`
+- EasySwoole: `php swoolefor.phar run -c "php /data/bin/easyswoole start"`
 - MixPHP: `php swoolefor.phar run -c "php /data/bin/mix-httpd start -c /data/applications/http/config/httpd.php"`
 
 
