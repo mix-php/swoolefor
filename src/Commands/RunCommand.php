@@ -48,8 +48,8 @@ class RunCommand
             ProcessHelper::daemon();
         }
         // Swoole 判断
-        if (!extension_loaded('swoole')) {
-            println('Need swoole extension to run, install: https://www.swoole.com/');
+        if (!extension_loaded('swoole') || version_compare(swoole_version(), '4.4') < 0) {
+            println('Need swoole extension >= v4.4 to run, install: https://www.swoole.com/');
             exit;
         }
         // Inotify 判断
