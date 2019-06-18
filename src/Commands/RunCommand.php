@@ -30,8 +30,8 @@ class RunCommand
         $argv = [
             'cmd'        => Flag::string(['c', 'cmd'], ''),
             'daemon'     => (int)Flag::bool(['d', 'daemon'], false),
-            'noNotify'   => (int)Flag::bool('no-notify', false),
-            'interval'   => Flag::string('interval', '2'),
+            'watchDir'   => Flag::string('watch-dir', ''),
+            'interval'   => Flag::string('interval', '3'),
             'stopSignal' => Flag::string('stop-signal', (string)SIGTERM),
             'stopWait'   => Flag::string('stop-wait', '5'),
         ];
@@ -57,6 +57,8 @@ class RunCommand
             println('Need inotify extension to run, install: http://pecl.php.net/package/inotify');
             exit;
         }
+        // 欢迎信息
+        static::welcome();
         // 执行
         xgo(function () use ($model) {
             $quit = new Channel();
@@ -74,7 +76,7 @@ class RunCommand
             $executor->start();
             // 启动监控器
             $monitor = new Monitor([
-                'dir'      => Monitor::dir($model->cmd),
+                'dir'      => $model->watchDir ?: Monitor::dir($model->cmd),
                 'interval' => $model->interval,
                 'executor' => $executor,
             ]);
@@ -85,6 +87,23 @@ class RunCommand
             $executor->stop();
         });
         Event::wait();
+    }
+
+    /**
+     * 欢迎信息
+     */
+    protected static function welcome()
+    {
+        $version = app()->appVersion;
+        echo <<<EOL
+   _____                     __        ______          
+  / ___/      ______  ____  / /__     / ____/___  _____
+  \__ \ | /| / / __ \/ __ \/ / _ \   / /_  / __ \/ ___/
+ ___/ / |/ |/ / /_/ / /_/ / /  __/  / __/ / /_/ / /    
+/____/|__/|__/\____/\____/_/\___/  /_/    \____/_/  Version: {$version}   
+
+
+EOL;
     }
 
 }

@@ -23,6 +23,11 @@ class RunForm extends Validator
     public $daemon;
 
     /**
+     * @var string
+     */
+    public $watchDir;
+
+    /**
      * @var int
      */
     public $interval;
@@ -46,6 +51,7 @@ class RunForm extends Validator
         return [
             'cmd'        => ['string', 'filter' => ['trim']],
             'daemon'     => ['in', 'range' => [1, 0], 'strict' => true],
+            'watchDir'   => ['string', 'filter' => ['trim']],
             'interval'   => ['integer', 'unsigned' => true],
             'stopSignal' => ['integer', 'unsigned' => true],
             'stopWait'   => ['integer', 'unsigned' => true],
@@ -59,7 +65,7 @@ class RunForm extends Validator
     public function scenarios()
     {
         return [
-            'main' => ['required' => ['cmd'], 'optional' => ['daemon', 'interval', 'stopSignal', 'stopWait']],
+            'main' => ['required' => ['cmd'], 'optional' => ['daemon', 'watchDir', 'interval', 'stopSignal', 'stopWait']],
         ];
     }
 

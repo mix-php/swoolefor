@@ -45,9 +45,10 @@ class Monitor extends AbstractObject
     public static function dir($cmd)
     {
         $slice = explode(' ', $cmd);
-        $file  = array_shift($slice);
-        $dir   = dirname($file);
-        if (basename($file) == 'bin') {
+        array_shift($slice);
+        $file = array_shift($slice); // 取第二个参数
+        $dir  = dirname($file);
+        if (basename($dir) == 'bin') {
             $dir = dirname($dir);
         }
         return $dir;
@@ -60,6 +61,9 @@ class Monitor extends AbstractObject
     {
         xgo(function () {
             $logger = Logger::make(app()->get("log"));
+            // 输出信息
+            $logger->info("watch directory: {$this->dir}");
+            $logger->info("processing interval: {$this->interval}s");
             // 监听全部目录
             $folders       = static::folders($this->dir);
             $this->_notify = $notify = inotify_init();
@@ -92,15 +96,18 @@ class Monitor extends AbstractObject
                         $fileChange = true;
                     }
                 }
-                if ($fileChange) {
-                    $logger->info("notify: file changes, restart 'Executor'");
+                if ($fileChange || $folderChange) {
+                    if ($fileChange) {
+                        $logger->info("notify: file changes");
+                    }
+                    if ($folderChange) {
+                        $logger->info("notify: directory changes");
+                    }
                     $this->executor->restart();
-                }
-                if ($folderChange) {
-                    $logger->info("notify: directory changes, restart 'Executor', restart 'Watcher'");
-                    $this->executor->restart();
-                    $this->start(); // 重启
-                    break;
+                    if ($folderChange) {
+                        $this->start(); // 重启
+                        break;
+                    }
                 }
                 sleep($this->interval);
             }

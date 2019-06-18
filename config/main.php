@@ -28,10 +28,12 @@ return [
             'Run',
             'description' => "\tRun your swoole application",
             'options'     => [
-                [['c', 'cmd'], 'description' => 'Swoole application start command'],
+                [['c', 'cmd'], 'description' => 'Swoole application or other script start command'],
                 [['d', 'daemon'], 'description' => 'Run in the background'],
+                ['watch-dir', 'description' => "Watch code file directory"],
                 ['interval', 'description' => "File change scan interval (seconds)"],
-                ['kill-wait', 'description' => "Force kill timeout (seconds)"],
+                ['stop-signal', 'description' => "Program kill signal"],
+                ['stop-wait', 'description' => "Force kill timeout (seconds)"],
             ],
         ],
 
