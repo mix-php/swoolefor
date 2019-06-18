@@ -28,7 +28,7 @@ return [
             'Run',
             'description' => "\tRun your swoole application",
             'options'     => [
-                ['cmd', 'description' => "\tSwoole application start command"],
+                [['c', 'cmd'], 'description' => 'Swoole application start command'],
                 [['d', 'daemon'], 'description' => 'Run in the background'],
                 ['interval', 'description' => "File change scan interval (seconds)"],
                 ['kill-wait', 'description' => "Force kill timeout (seconds)"],

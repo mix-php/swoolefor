@@ -28,7 +28,7 @@ class RunCommand
         Coroutine::enableHook();
         // 获取参数
         $argv = [
-            'cmd'        => Flag::string('cmd', ''),
+            'cmd'        => Flag::string(['c', 'cmd'], ''),
             'daemon'     => (int)Flag::bool(['d', 'daemon'], false),
             'noNotify'   => (int)Flag::bool('no-notify', false),
             'interval'   => Flag::string('interval', '2'),

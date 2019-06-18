@@ -47,16 +47,23 @@ class Executor extends AbstractObject
             $logger = Logger::make(app()->get("log"));
 
             $descriptorspec = [
-                0 => ["pipe", "r"],  // 标准输入，子进程从此管道中读取数据
-                1 => ["pipe", "w"],  // 标准输出，子进程向此管道中写入数据
+                0 => ["pipe", "r"], // 标准输入，子进程从此管道中读取数据
+                1 => ["pipe", "w"], // 标准输出，子进程向此管道中写入数据
+                2 => ["pipe", "w"], // 标准错误
             ];
             $process        = proc_open($this->cmd, $descriptorspec, $pipes);
-            $info           = proc_get_status($process);
-            $this->_pid     = $info['pid'];
+            $status         = proc_get_status($process);
+            $this->_pid     = $status['pid'];
             $logger->info('fork process, pid: {pid}, cmd: [{cmd}]', ['pid' => $this->_pid, 'cmd' => $this->cmd]);
 
-            $code = proc_close($process); // 注意：执行后$process引用将会被移除
-            $logger->info('process exit, pid: {pid}, code: {code}', ['pid' => $this->_pid, 'code' => $code]);
+            // 等待进程停止
+            while (proc_get_status($process)['running']) {
+                stream_get_contents($pipes[2]);
+            }
+
+            // 获取最新状态
+            $status = proc_get_status($process);
+            $logger->info('process exit, pid: {pid}, exitcode: {exitcode}', ['pid' => $this->_pid, 'exitcode' => $status['exitcode']]);
 
             $this->_quit or $this->start(); // 退出后，重启
         });

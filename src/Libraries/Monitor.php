@@ -75,7 +75,6 @@ class Monitor extends AbstractObject
                 try {
                     $files = inotify_read($notify);
                 } catch (\Throwable $e) {
-                    var_dump($e->getMessage());
                     break;
                 }
                 if (!$files) {
