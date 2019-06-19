@@ -25,22 +25,22 @@ class RunForm extends Validator
     /**
      * @var string
      */
-    public $watchDir;
+    public $watch;
 
     /**
      * @var int
      */
-    public $interval;
+    public $delay;
+
+    /**
+     * @var string
+     */
+    public $ext;
 
     /**
      * @var int
      */
-    public $stopSignal;
-
-    /**
-     * @var int
-     */
-    public $stopWait;
+    public $signal;
 
     /**
      * 规则
@@ -49,12 +49,12 @@ class RunForm extends Validator
     public function rules()
     {
         return [
-            'cmd'        => ['string', 'filter' => ['trim']],
-            'daemon'     => ['in', 'range' => [1, 0], 'strict' => true],
-            'watchDir'   => ['string', 'filter' => ['trim']],
-            'interval'   => ['integer', 'unsigned' => true],
-            'stopSignal' => ['integer', 'unsigned' => true],
-            'stopWait'   => ['integer', 'unsigned' => true],
+            'cmd'    => ['string', 'filter' => ['trim']],
+            'daemon' => ['in', 'range' => [1, 0], 'strict' => true],
+            'watch'  => ['string', 'filter' => ['trim']],
+            'delay'  => ['integer', 'unsigned' => true],
+            'ext'    => ['string', 'filter' => ['trim']],
+            'signal' => ['integer', 'unsigned' => true],
         ];
     }
 
@@ -65,7 +65,7 @@ class RunForm extends Validator
     public function scenarios()
     {
         return [
-            'main' => ['required' => ['cmd'], 'optional' => ['daemon', 'watchDir', 'interval', 'stopSignal', 'stopWait']],
+            'main' => ['required' => ['cmd'], 'optional' => ['daemon', 'watch', 'delay', 'ext', 'signal']],
         ];
     }
 
@@ -76,10 +76,9 @@ class RunForm extends Validator
     public function messages()
     {
         return [
-            'cmd.required'       => '\'--cmd\' option cannot be empty.',
-            'interval.integer'   => '\'--interval\' option can only be numbers.',
-            'stopSignal.integer' => '\'--stop-signal\' option can only be numbers.',
-            'stopWait.integer'   => '\'--stop-wait\' option can only be numbers.',
+            'cmd.required'   => '\'--cmd\' option cannot be empty.',
+            'delay.integer'  => '\'--delay\' option can only be number.',
+            'signal.integer' => '\'--signal\' option can only be number.',
         ];
     }
 

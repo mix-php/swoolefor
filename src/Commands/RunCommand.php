@@ -28,12 +28,12 @@ class RunCommand
         Coroutine::enableHook(SWOOLE_HOOK_ALL ^ SWOOLE_HOOK_FILE);
         // 获取参数
         $argv = [
-            'cmd'        => Flag::string(['c', 'cmd'], ''),
-            'daemon'     => (int)Flag::bool(['d', 'daemon'], false),
-            'watchDir'   => Flag::string('watch-dir', ''),
-            'interval'   => Flag::string('interval', '3'),
-            'stopSignal' => Flag::string('stop-signal', (string)SIGTERM),
-            'stopWait'   => Flag::string('stop-wait', '5'),
+            'cmd'    => Flag::string(['c', 'cmd'], ''),
+            'daemon' => (int)Flag::bool(['d', 'daemon'], false),
+            'watch'  => Flag::string('watch', ''),
+            'delay'  => Flag::string('delay', '3'),
+            'ext'    => Flag::string('ext', 'php,json'),
+            'signal' => Flag::string('signal', (string)SIGTERM),
         ];
         // 使用模型
         $model             = new RunForm();
@@ -69,15 +69,15 @@ class RunCommand
             });
             // 启动执行器
             $executor = new Executor([
-                'cmd'        => $model->cmd,
-                'stopSignal' => $model->stopSignal,
-                'stopWait'   => $model->stopWait,
+                'cmd'    => $model->cmd,
+                'signal' => $model->signal,
             ]);
             $executor->start();
             // 启动监控器
             $monitor = new Monitor([
-                'dir'      => $model->watchDir ?: Monitor::dir($model->cmd),
-                'interval' => $model->interval,
+                'dir'      => $model->watch ?: Monitor::dir($model->cmd),
+                'delay'    => $model->delay,
+                'ext'      => Monitor::ext($model->ext),
                 'executor' => $executor,
             ]);
             $monitor->start();

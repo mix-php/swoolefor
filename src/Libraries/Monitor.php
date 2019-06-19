@@ -20,7 +20,12 @@ class Monitor extends AbstractObject
     /**
      * @var int
      */
-    public $interval;
+    public $delay;
+
+    /**
+     * @var array
+     */
+    public $ext;
 
     /**
      * @var Executor
@@ -38,6 +43,23 @@ class Monitor extends AbstractObject
     protected $_quit = false;
 
     /**
+     * 构建扩展名数组
+     * @param $ext
+     * @return array
+     */
+    public static function ext($ext)
+    {
+        $slice = explode(',', $ext);
+        $data  = [];
+        foreach ($slice as $key => $value) {
+            if (substr($value, 0, 1) != '.') {
+                $data[] = ".{$value}";
+            }
+        }
+        return $data;
+    }
+
+    /**
      * 通过命令获取观察目录
      * @param $cmd
      * @return string
@@ -47,9 +69,15 @@ class Monitor extends AbstractObject
         $slice = explode(' ', $cmd);
         array_shift($slice);
         $file = array_shift($slice); // 取第二个参数
-        $dir  = dirname($file);
+        if (!$file) {
+            return '';
+        }
+        $dir = dirname($file);
         if (basename($dir) == 'bin') {
             $dir = dirname($dir);
+        }
+        if ($dir == '\\') {
+            return '';
         }
         return $dir;
     }
@@ -59,11 +87,17 @@ class Monitor extends AbstractObject
      */
     public function start()
     {
+        if (!$this->dir) {
+            return;
+        }
+        // 输出信息
+        $logger = Logger::make(app()->get("log"));
+        $logger->info("monitor start");
+        $logger->info("watch: {$this->dir}");
+        $logger->info("delay: {$this->delay}s");
+        $logger->info("ext: " . implode(',', $this->ext));
         xgo(function () {
             $logger = Logger::make(app()->get("log"));
-            // 输出信息
-            $logger->info("watch directory: {$this->dir}");
-            $logger->info("processing interval: {$this->interval}s");
             // 监听全部目录
             $folders       = static::folders($this->dir);
             $this->_notify = $notify = inotify_init();
@@ -82,7 +116,7 @@ class Monitor extends AbstractObject
                     break;
                 }
                 if (!$files) {
-                    sleep($this->interval);
+                    sleep($this->delay);
                     continue;
                 }
                 $fileChange   = false;
@@ -92,7 +126,7 @@ class Monitor extends AbstractObject
                     if ($file['mask'] == 1073742080) {
                         $folderChange = true;
                     }
-                    if (substr($filename, -4, 4) == '.php') {
+                    if (in_array(substr($filename, -4, 4), $this->ext)) {
                         $fileChange = true;
                     }
                 }
@@ -109,7 +143,7 @@ class Monitor extends AbstractObject
                         break;
                     }
                 }
-                sleep($this->interval);
+                sleep($this->delay);
             }
         });
     }
@@ -119,7 +153,8 @@ class Monitor extends AbstractObject
      */
     public function stop()
     {
-        fclose($this->_notify);
+        Logger::make(app()->get("log"))->info("monitor stop");
+        $this->_notify and fclose($this->_notify);
     }
 
     /**
