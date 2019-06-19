@@ -11,6 +11,7 @@ Monitor for any changes in your swoole application and automatically restart the
 
 ## 下载 (Download)
 
+- [swoolefor.phar v1.0.2](https://github.com/mix-php/swoolefor/releases/download/v1.0.2/swoolefor.phar)
 - [swoolefor.phar v1.0.1](https://github.com/mix-php/swoolefor/releases/download/v1.0.1/swoolefor.phar)
 
 ## 使用 (Usage)
