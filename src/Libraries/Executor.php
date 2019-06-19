@@ -54,14 +54,14 @@ class Executor extends AbstractObject
             $process        = proc_open($this->cmd, $descriptorspec, $pipes);
             $status         = proc_get_status($process);
             $this->_pid     = $status['pid'];
-            $logger->info('fork process, pid: {pid}', ['pid' => $this->_pid]);
+            $logger->info('fork sub process, pid: {pid}', ['pid' => $this->_pid]);
             // 等待进程停止
             do {
                 stream_get_contents($pipes[2]);
                 $status = proc_get_status($process);
             } while ($status['running']);
             // 获取最新状态
-            $logger->info('process exit, pid: {pid}, exitcode: {exitcode}, termsig: {termsig}, stopsig: {stopsig}', ['pid' => $this->_pid, 'exitcode' => $status['exitcode'], 'termsig' => $status['termsig'], 'stopsig' => $status['stopsig']]);
+            $logger->info('sub process exit, pid: {pid}, exitcode: {exitcode}, termsig: {termsig}, stopsig: {stopsig}', ['pid' => $this->_pid, 'exitcode' => $status['exitcode'], 'termsig' => $status['termsig'], 'stopsig' => $status['stopsig']]);
             // 重新fork进程
             $this->_quit or $this->start();
         });

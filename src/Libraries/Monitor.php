@@ -126,7 +126,10 @@ class Monitor extends AbstractObject
                     if ($file['mask'] == 1073742080) {
                         $folderChange = true;
                     }
-                    if (in_array(substr($filename, -4, 4), $this->ext)) {
+                    $slice = explode('.', $filename);
+                    $ext   = array_pop($slice);
+                    $ext   = ".{$ext}";
+                    if (in_array($ext, $this->ext)) {
                         $fileChange = true;
                     }
                 }
