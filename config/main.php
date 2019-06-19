@@ -32,7 +32,7 @@ return [
                 [['d', 'daemon'], 'description' => 'Run in the background'],
                 ['watch', 'description' => "Watch code file directory"],
                 ['delay', 'description' => "File change delay processing (seconds)"],
-                ['ext', 'description' => "Monitor only changes to these extensions"],
+                ['ext', 'description' => "\tMonitor only changes to these extensions"],
                 ['signal', 'description' => "Send this signal to the process"],
             ],
         ],
