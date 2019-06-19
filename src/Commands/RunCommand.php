@@ -25,7 +25,7 @@ class RunCommand
     public function main()
     {
         // hook协程
-        Coroutine::enableHook();
+        Coroutine::enableHook(SWOOLE_HOOK_ALL ^ SWOOLE_HOOK_FILE);
         // 获取参数
         $argv = [
             'cmd'        => Flag::string(['c', 'cmd'], ''),
