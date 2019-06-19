@@ -66,13 +66,13 @@ php swoolefor.phar run --help
 `--cmd` 内部可以是任何命令，必须为绝对路径，必须为守护程序 (非守护程序会导致不断fork进程)
 
 ```
-php swoolefor.phar run --cmd="node app.js"
+php swoolefor.phar run --cmd="php app.php"
 ```
 
 也可使用短参数
 
 ```
-php swoolefor.phar run -c "node app.js"
+php swoolefor.phar run -c "php app.php"
 ```
 
 ## 执行非 PHP 脚本
