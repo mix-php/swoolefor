@@ -39,14 +39,14 @@ php -d disable_functions='' swoolefor.phar run --cmd="php app.php arg..."
  ___/ / |/ |/ / /_/ / /_/ / /  __/ __/ / /_/ / /    
 /____/|__/|__/\____/\____/_/\___/_/    \____/_/  Version: 1.0.2
 
-[info] 2019-06-19 12:33:46 <28397> [message] executor start
-[info] 2019-06-19 12:33:46 <28397> [message] cmd: [php /data/bin/mix-httpd start -c /data/applications/http/config/httpd.php]
-[info] 2019-06-19 12:33:46 <28397> [message] signal: 9
-[info] 2019-06-19 12:33:46 <28397> [message] fork process, pid: 28398
-[info] 2019-06-19 12:33:46 <28397> [message] monitor start
-[info] 2019-06-19 12:33:46 <28397> [message] watch: /tmp
-[info] 2019-06-19 12:33:46 <28397> [message] delay: 1s
-[info] 2019-06-19 12:33:46 <28397> [message] ext: .php,.json
+[info] 2019-06-19 15:52:28 <28651> [message] executor start
+[info] 2019-06-19 15:52:28 <28651> [message] cmd: [php /data/bin/mix-httpd start -c /data/applications/http/config/httpd.php]
+[info] 2019-06-19 15:52:28 <28651> [message] signal: 15
+[info] 2019-06-19 15:52:28 <28651> [message] fork process, pid: 28652
+[info] 2019-06-19 15:52:28 <28651> [message] monitor start
+[info] 2019-06-19 15:52:28 <28651> [message] watch: /data
+[info] 2019-06-19 15:52:28 <28651> [message] delay: 3s
+[info] 2019-06-19 15:52:28 <28651> [message] ext: .php,.json
 ```
 
 ## 全部命令参数
