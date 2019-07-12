@@ -40,9 +40,7 @@ class Executor extends AbstractObject
     {
         // 输出信息
         $logger = Logger::make(app()->get("log"));
-        $logger->info("executor start");
-        $logger->info("cmd: [{$this->cmd}]");
-        $logger->info("signal: {$this->signal}");
+        $logger->info("executor start, cmd: [{$this->cmd}]");
         xgo(function () {
             $logger = Logger::make(app()->get("log"));
             // fork进程
