@@ -68,16 +68,31 @@ class Executor
             $status         = proc_get_status($process);
             $this->pid      = $status['pid'];
             $log->info('fork sub process, pid: {pid}', ['pid' => $this->pid]);
-            // 等待进程停止
+            $forkTime = static::microtime();
+            // 等待进程终止
             do {
                 stream_get_contents($pipes[2]);
                 $status = proc_get_status($process);
             } while ($status['running']);
-            // 获取最新状态
             $log->info('sub process exit, pid: {pid}, exitcode: {exitcode}, termsig: {termsig}, stopsig: {stopsig}', ['pid' => $this->pid, 'exitcode' => $status['exitcode'], 'termsig' => $status['termsig'], 'stopsig' => $status['stopsig']]);
+            // 进程终止太快处理
+            if (static::microtime() - $forkTime < 500) {
+                $log->warning('sub process exit too fast, sleep 2 seconds');
+                sleep(2);
+            }
             // 重新fork进程
             $this->quit or $this->start();
         });
+    }
+
+    /**
+     * 获取当前微妙时间
+     * @return float
+     */
+    protected static function microtime()
+    {
+        list($usec, $sec) = explode(" ", microtime());
+        return ((float)$usec + (float)$sec);
     }
 
     /**
