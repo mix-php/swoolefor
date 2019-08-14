@@ -40,16 +40,14 @@ php -d disable_functions='' swoolefor.phar --exec="php app.php arg..."
   / ___/      ______  ____  / /__  / ____/___  _____
   \__ \ | /| / / __ \/ __ \/ / _ \/ /_  / __ \/ ___/
  ___/ / |/ |/ / /_/ / /_/ / /  __/ __/ / /_/ / /    
-/____/|__/|__/\____/\____/_/\___/_/    \____/_/  Version: 1.0.2
+/____/|__/|__/\____/\____/_/\___/_/    \____/_/  Version: 1.1.1, Swoole: 4.4.0
 
-[info] 2019-06-19 15:52:28 <28651> [message] executor start
-[info] 2019-06-19 15:52:28 <28651> [message] cmd: [php /data/bin/mix-httpd start -c /data/applications/http/config/httpd.php]
-[info] 2019-06-19 15:52:28 <28651> [message] signal: 15
-[info] 2019-06-19 15:52:28 <28651> [message] fork process, pid: 28652
-[info] 2019-06-19 15:52:28 <28651> [message] monitor start
-[info] 2019-06-19 15:52:28 <28651> [message] watch: /data
-[info] 2019-06-19 15:52:28 <28651> [message] delay: 3s
-[info] 2019-06-19 15:52:28 <28651> [message] ext: .php,.json
+[info] 2019-08-14 11:51:05.937 <920> [message] executor start, exec: [php /data/bin/mix-httpd start]
+[info] 2019-08-14 11:51:05.938 <920> [message] fork sub process, pid: 921
+[info] 2019-08-14 11:51:05.939 <920> [message] monitor start
+[info] 2019-08-14 11:51:05.939 <920> [message] watch: /data
+[info] 2019-08-14 11:51:05.939 <920> [message] delay: 3s
+[info] 2019-08-14 11:51:05.939 <920> [message] ext: .php,.json
 ```
 
 ## 全部命令参数
