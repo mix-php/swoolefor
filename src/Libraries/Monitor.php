@@ -92,7 +92,7 @@ class Monitor
         if (basename($dir) == 'bin') {
             $dir = dirname($dir);
         }
-        if ($dir == '\\') {
+        if ($dir == '\\' || $dir == '.') {
             return '';
         }
         return $dir;

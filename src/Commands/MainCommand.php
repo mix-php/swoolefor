@@ -6,8 +6,7 @@ use SwooleFor\Libraries\Executor;
 use SwooleFor\Libraries\Monitor;
 use SwooleFor\Forms\MainForm;
 use Mix\Console\CommandLine\Flag;
-use Mix\Core\Coroutine\Channel;
-use Mix\Core\Event;
+use Mix\Concurrent\Coroutine\Channel;
 use Mix\Helper\ProcessHelper;
 
 /**
@@ -37,7 +36,7 @@ class MainCommand
         $model->setScenario('main');
         if (!$model->validate()) {
             println($model->getError());
-            exit;
+            return;
         }
         // 守护处理
         if ($model->daemon) {
@@ -46,12 +45,12 @@ class MainCommand
         // Swoole 判断
         if (!extension_loaded('swoole') || version_compare(swoole_version(), '4.4') < 0) {
             println('Need swoole extension >= v4.4 to run, install: https://www.swoole.com/');
-            exit;
+            return;
         }
         // Inotify 判断
         if (!extension_loaded('inotify')) {
             println('Need inotify extension to run, install: http://pecl.php.net/package/inotify');
-            exit;
+            return;
         }
         // 欢迎信息
         static::welcome();
@@ -82,7 +81,6 @@ class MainCommand
             $monitor->stop();
             $executor->stop();
         });
-        Event::wait();
     }
 
     /**
@@ -97,7 +95,7 @@ class MainCommand
   / ___/      ______  ____  / /__  / ____/___  _____
   \__ \ | /| / / __ \/ __ \/ / _ \/ /_  / __ \/ ___/
  ___/ / |/ |/ / /_/ / /_/ / /  __/ __/ / /_/ / /    
-/____/|__/|__/\____/\____/_/\___/_/    \____/_/  Version: {$appVersion} Swoole: {$swooleVersion}
+/____/|__/|__/\____/\____/_/\___/_/    \____/_/  Version: {$appVersion}, Swoole: {$swooleVersion}
 
 
 EOL;
