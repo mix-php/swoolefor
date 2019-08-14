@@ -66,7 +66,7 @@ php swoolefor.phar --help
 
 ## 执行脚本命令
 
-`--cmd` 内部可以是任何命令，必须为绝对路径，必须为前台执行的常驻程序 (否则会导致不断fork进程)
+`--exec` 内部可以是任何命令，必须为**绝对路径**，必须为**前台执行的常驻程序** (否则会导致不断fork进程)
 
 ```
 php swoolefor.phar --exec="php app.php"
