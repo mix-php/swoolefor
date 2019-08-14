@@ -1,6 +1,6 @@
 {
-  "name": "mix/mix-cli",
-  "description": "MixPHP 系统命令开发 http://www.mixphp.cn",
+  "name": "mix/mix-phar",
+  "description": "Mix Phar (单执行文件命令行) http://www.mixphp.cn",
   "type": "project",
   "keywords": [
     "framework",
@@ -17,18 +17,19 @@
   ],
   "require": {
     "php": ">=7.0.0",
-    "mix/framework": "~2.0",
-    "mix/console": "~2.0",
-    "mix/log": "~2.0",
-    "mix/validate": "~2.0"
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "mix/console": "v2.1.x-dev",
+    "mix/bean": "v2.1.x-dev",
+    "mix/log": "v2.1.x-dev",
+    "mix/validate": "v2.1.x-dev",
+    "mix/helper": "v2.1.x-dev",
+    "mix/concurrent": "v2.1.x-dev"
   },
   "autoload": {
     "psr-4": {
-      "Cli\\": "src/"
+      "SwooleFor\\": "src/"
     },
-    "classmap": [
-      "src/ApplicationInterface.php"
-    ],
     "files": [
       "src/functions.php"
     ]

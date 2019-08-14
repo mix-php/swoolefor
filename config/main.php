@@ -7,7 +7,7 @@ return [
     'appName'          => 'SwooleFor',
 
     // 应用版本
-    'appVersion'       => '1.0.2',
+    'appVersion'       => '1.1.0',
 
     // 应用调试
     'appDebug'         => false,
@@ -19,7 +19,7 @@ return [
     'runtimePath'      => '',
 
     // 命令命名空间
-    'commandNamespace' => 'Cli\Commands',
+    'commandNamespace' => 'SwooleFor\Commands',
 
     // 命令
     'commands'         => [
@@ -39,84 +39,58 @@ return [
 
     ],
 
-    // 组件配置
-    'components'       => [
-
-        // 错误
-        'error' => [
-            // 依赖引用
-            'ref' => beanname(Mix\Console\Error::class),
-        ],
-
-        // 日志
-        'log'   => [
-            // 依赖引用
-            'ref' => beanname(Mix\Log\Logger::class),
-        ],
-
-    ],
-
     // 依赖配置
     'beans'            => [
 
+        // 错误
         [
+            // 名称
+            'name'            => 'error',
+            // 作用域
+            'scope'           => \Mix\Bean\BeanDefinition::SINGLETON,
             // 类路径
-            'class'      => Mix\Console\Error::class,
-            // 属性
-            'properties' => [
+            'class'           => \Mix\Console\Error::class,
+            // 构造函数注入
+            'constructorArgs' => [
                 // 错误级别
-                'level' => E_ALL,
+                E_ALL,
+                // 日志
+                ['ref' => 'log'],
             ],
         ],
 
         // 日志
         [
+            // 名称
+            'name'       => 'log',
+            // 作用域
+            'scope'      => \Mix\Bean\BeanDefinition::SINGLETON,
             // 类路径
-            'class'      => Mix\Log\Logger::class,
-            // 属性
+            'class'      => \Mix\Log\Logger::class,
+            // 属性注入
             'properties' => [
                 // 日志记录级别
                 'levels'  => ['emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'info', 'debug'],
                 // 处理器
-                'handler' => [
-                    // 依赖引用
-                    'ref' => beanname(Mix\Log\MultiHandler::class),
-                ],
+                'handler' => ['ref' => \Mix\Log\MultiHandler::class],
             ],
         ],
 
         // 日志处理器
         [
             // 类路径
-            'class'      => Mix\Log\MultiHandler::class,
-            // 属性
-            'properties' => [
-                // 日志处理器集合
-                'handlers' => [
-                    // 标准输出处理器
-                    [
-                        // 依赖引用
-                        'ref' => beanname(Mix\Log\StdoutHandler::class),
-                    ],
-                    // 文件处理器
-                    [
-                        // 依赖引用
-                        'ref' => beanname(Mix\Log\FileHandler::class),
-                    ],
-                ],
+            'class'           => \Mix\Log\MultiHandler::class,
+            // 构造函数注入
+            'constructorArgs' => [
+                // 标准输出处理器
+                ['ref' => \Mix\Log\StdoutHandler::class],
             ],
         ],
 
         // 日志标准输出处理器
         [
             // 类路径
-            'class' => Mix\Log\StdoutHandler::class,
-        ],
-
-        // 日志文件处理器
-        [
-            // 类路径
-            'class' => Mix\Log\FileHandler::class,
+            'class' => \Mix\Log\StdoutHandler::class,
         ],
 
     ],
