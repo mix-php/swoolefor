@@ -1,22 +1,21 @@
 <?php
 
-namespace Cli\Commands;
+namespace SwooleFor\Commands;
 
-use Cli\Libraries\Executor;
-use Cli\Libraries\Monitor;
-use Cli\Models\RunForm;
+use SwooleFor\Libraries\Executor;
+use SwooleFor\Libraries\Monitor;
+use SwooleFor\Forms\MainForm;
 use Mix\Console\CommandLine\Flag;
-use Mix\Core\Coroutine;
 use Mix\Core\Coroutine\Channel;
 use Mix\Core\Event;
 use Mix\Helper\ProcessHelper;
 
 /**
- * Class RunCommand
- * @package Cli\Commands
+ * Class MainCommand
+ * @package SwooleFor\Commands
  * @author liu,jian <coder.keda@gmail.com>
  */
-class RunCommand
+class MainCommand
 {
 
     /**
@@ -24,11 +23,9 @@ class RunCommand
      */
     public function main()
     {
-        // hook协程
-        Coroutine::enableHook(SWOOLE_HOOK_ALL ^ SWOOLE_HOOK_FILE);
         // 获取参数
         $argv = [
-            'cmd'    => Flag::string(['c', 'cmd'], ''),
+            'exec'   => Flag::string(['e', 'exec'], ''),
             'daemon' => (int)Flag::bool(['d', 'daemon'], false),
             'watch'  => Flag::string('watch', ''),
             'delay'  => Flag::string('delay', '3'),
@@ -36,8 +33,7 @@ class RunCommand
             'signal' => Flag::string('signal', (string)SIGTERM),
         ];
         // 使用模型
-        $model             = new RunForm();
-        $model->attributes = $argv;
+        $model = new MainForm($argv);
         $model->setScenario('main');
         if (!$model->validate()) {
             println($model->getError());
@@ -69,13 +65,13 @@ class RunCommand
             });
             // 启动执行器
             $executor = new Executor([
-                'cmd'    => $model->cmd,
+                'exec'   => $model->exec,
                 'signal' => $model->signal,
             ]);
             $executor->start();
             // 启动监控器
             $monitor = new Monitor([
-                'dir'      => $model->watch ?: Monitor::dir($model->cmd),
+                'dir'      => $model->watch ?: Monitor::dir($model->exec),
                 'delay'    => $model->delay,
                 'ext'      => Monitor::ext($model->ext),
                 'executor' => $executor,
@@ -94,13 +90,14 @@ class RunCommand
      */
     protected static function welcome()
     {
-        $version = app()->appVersion;
+        $appVersion    = app()->appVersion;
+        $swooleVersion = SWOOLE_VERSION;
         echo <<<EOL
    _____                     __     ______          
   / ___/      ______  ____  / /__  / ____/___  _____
   \__ \ | /| / / __ \/ __ \/ / _ \/ /_  / __ \/ ___/
  ___/ / |/ |/ / /_/ / /_/ / /  __/ __/ / /_/ / /    
-/____/|__/|__/\____/\____/_/\___/_/    \____/_/  Version: {$version}
+/____/|__/|__/\____/\____/_/\___/_/    \____/_/  Version: {$appVersion} Swoole: {$swooleVersion}
 
 
 EOL;

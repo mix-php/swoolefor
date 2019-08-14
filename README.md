@@ -6,6 +6,8 @@ Monitor for any changes in your swoole application and automatically restart the
 
 SwooleFor 的定位就如同 PHP 版本的 [nodemon](https://www.npmjs.com/package/nodemon), [node-dev](https://www.npmjs.com/package/node-dev)
 
+该项目使用 [mix-phar](https://github.com/mix-php/mix-phar) 开发
+
 ## 依赖扩展 (Depend extensions)
 
 - [ext-swoole >= v4.4](https://github.com/swoole/swoole-src/)
@@ -13,6 +15,7 @@ SwooleFor 的定位就如同 PHP 版本的 [nodemon](https://www.npmjs.com/packa
 
 ## 下载 (Download)
 
+- [swoolefor.phar v1.1.1](https://github.com/mix-php/swoolefor/releases/download/v1.1.1/swoolefor.phar)
 - [swoolefor.phar v1.0.2](https://github.com/mix-php/swoolefor/releases/download/v1.0.2/swoolefor.phar)
 - [swoolefor.phar v1.0.1](https://github.com/mix-php/swoolefor/releases/download/v1.0.1/swoolefor.phar)
 
@@ -21,13 +24,13 @@ SwooleFor 的定位就如同 PHP 版本的 [nodemon](https://www.npmjs.com/packa
 执行脚本命令：
 
 ```
-php swoolefor.phar run --cmd="php app.php arg..."
+php swoolefor.phar --exec="php app.php arg..."
 ```
 
 如果 `disable_functions` 禁用了 `proc_open` 方法，按如下方法执行：
 
 ```
-php -d disable_functions='' swoolefor.phar run --cmd="php app.php arg..."
+php -d disable_functions='' swoolefor.phar --exec="php app.php arg..."
 ```
 
 启动成功：
@@ -52,10 +55,10 @@ php -d disable_functions='' swoolefor.phar run --cmd="php app.php arg..."
 ## 全部命令参数
 
 ```
-php swoolefor.phar run --help
+php swoolefor.phar --help
 ```
 
-- `-c, --cmd`	Swoole application or other script start command
+- `-e, --exec`	Swoole application or other script start command
 - `-d, --daemon`	Run in the background
 - `--watch`	Watch code file directory
 - `--delay`	File change delay processing (seconds)
@@ -68,13 +71,13 @@ php swoolefor.phar run --help
 `--cmd` 内部可以是任何命令，必须为绝对路径，必须为前台执行的常驻程序 (否则会导致不断fork进程)
 
 ```
-php swoolefor.phar run --cmd="php app.php"
+php swoolefor.phar --exec="php app.php"
 ```
 
 也可使用短参数
 
 ```
-php swoolefor.phar run -c "php app.php"
+php swoolefor.phar -e "php app.php"
 ```
 
 ## 执行非 PHP 脚本
@@ -82,13 +85,13 @@ php swoolefor.phar run -c "php app.php"
 - node
 
 ```
-php swoolefor.phar run --cmd="node app.js"
+php swoolefor.phar --exec="node app.js"
 ```
 
 - python
 
 ```
-php swoolefor.phar run --cmd="python app.py"
+php swoolefor.phar --exec="python app.py"
 ```
 
 ## 在后台执行
@@ -96,28 +99,28 @@ php swoolefor.phar run --cmd="python app.py"
 SwooleFor 本身可以在后台执行，这样可以脱离终端，增加 `--daemon` 即可
 
 ```
-php swoolefor.phar run --cmd="node app.js" --daemon
+php swoolefor.phar --exec="node app.js" --daemon
 ```
 
 也可使用短参数
 
 ```
-php swoolefor.phar run --cmd="node app.js" -d
+php swoolefor.phar --exec="node app.js" -d
 ```
 
 ## 指定监控目录
 
-`--watch` 的默认值为 `--cmd` 参数中脚本的当前目录，如果脚本是在 `bin` 目录中则会监控上一级的目录。
+`--watch` 的默认值为 `--exec` 参数中脚本的当前目录，如果脚本是在 `bin` 目录中则会监控上一级的目录。
 
 ```
 // 会自动监控 /data 目录
-php swoolefor.phar run --cmd="php /data/bin/app.php"
+php swoolefor.phar --exec="php /data/bin/app.php"
 ```
 
 指定监控其他目录
 
 ```
-php swoolefor.phar run --cmd="php app.php" --watch=/tmp
+php swoolefor.phar --exec="php app.php" --watch=/tmp
 ```
 
 ## 推迟执行重启
@@ -127,7 +130,7 @@ php swoolefor.phar run --cmd="php app.php" --watch=/tmp
 `--delay` 默认为 `3s`
 
 ```
-php swoolefor.phar run --cmd="php app.php" --delay=5
+php swoolefor.phar --exec="php app.php" --delay=5
 ```
 
 ## 指定观察的扩展名
@@ -135,7 +138,7 @@ php swoolefor.phar run --cmd="php app.php" --delay=5
 `--ext` 默认为 `php,json`，当需要观察其他扩展名时可配置
 
 ```
-php swoolefor.phar run --cmd="php app.php" --ext=php,json,ini
+php swoolefor.phar --exec="php app.php" --ext=php,json,ini
 ```
 
 ## 重启时发送的信号
@@ -147,7 +150,7 @@ php swoolefor.phar run --cmd="php app.php" --ext=php,json,ini
 `--signal` 默认为 `15`
 
 ```
-php swoolefor.phar run --cmd="php app.php" --signal=1
+php swoolefor.phar --exec="php app.php" --signal=1
 ```
 
 常用的信号表
@@ -164,25 +167,25 @@ php swoolefor.phar run --cmd="php app.php" --signal=1
 - MixPHP: 
 
 ```
-php swoolefor.phar run -c "php /data/bin/mix-httpd start -c /data/applications/http/config/httpd.php"
+php swoolefor.phar -e "php /data/bin/mix-httpd start -c /data/applications/http/config/httpd.php"
 ```
 
 - Swoft:
 
 ```
-php swoolefor.phar run -c "php /data/bin/swoft http:start"
+php swoolefor.phar -e "php /data/bin/swoft http:start"
 ```
 
 - EasySwoole: 
 
 ```
-php swoolefor.phar run -c "php /data/bin/easyswoole start"
+php swoolefor.phar -e "php /data/bin/easyswoole start"
 ```
 
 - laravel-s
 
 ```
-php swoolefor.phar run -c "php /data/bin/laravels start"
+php swoolefor.phar -e "php /data/bin/laravels start"
 ```
 
 ## License

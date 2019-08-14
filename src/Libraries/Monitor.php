@@ -1,15 +1,16 @@
 <?php
 
-namespace Cli\Libraries;
+namespace SwooleFor\Libraries;
 
-use Mix\Core\Bean\AbstractObject;
+use Mix\Bean\BeanInjector;
 use Mix\Log\Logger;
 
 /**
  * Class Monitor
- * @package Cli\Libraries
+ * @package SwooleFor\Libraries
+ * @author liu,jian <coder.keda@gmail.com>
  */
-class Monitor extends AbstractObject
+class Monitor
 {
 
     /**
@@ -33,14 +34,29 @@ class Monitor extends AbstractObject
     public $executor;
 
     /**
+     * @var Logger
+     */
+    protected $log;
+
+    /**
      * @var resource
      */
-    protected $_notify;
+    protected $notify;
 
     /**
      * @var bool
      */
-    protected $_quit = false;
+    protected $quit = false;
+
+    /**
+     * Executor constructor.
+     * @param $config
+     */
+    public function __construct($config)
+    {
+        BeanInjector::inject($this, $config);
+        $this->log = context()->get('log');
+    }
 
     /**
      * 构建扩展名数组
@@ -91,16 +107,15 @@ class Monitor extends AbstractObject
             return;
         }
         // 输出信息
-        $logger = Logger::make(app()->get("log"));
-        $logger->info("monitor start");
-        $logger->info("watch: {$this->dir}");
-        $logger->info("delay: {$this->delay}s");
-        $logger->info("ext: " . implode(',', $this->ext));
-        xgo(function () {
-            $logger = Logger::make(app()->get("log"));
+        $log = $this->log;
+        $log->info("monitor start");
+        $log->info("watch: {$this->dir}");
+        $log->info("delay: {$this->delay}s");
+        $log->info("ext: " . implode(',', $this->ext));
+        xgo(function () use ($log) {
             // 监听全部目录
-            $folders       = static::folders($this->dir);
-            $this->_notify = $notify = inotify_init();
+            $folders      = static::folders($this->dir);
+            $this->notify = $notify = inotify_init();
             foreach ($folders as $folder) {
                 $ret = inotify_add_watch($notify, $folder, IN_CLOSE_WRITE | IN_CREATE | IN_DELETE);
                 if (!$ret) {
@@ -135,10 +150,10 @@ class Monitor extends AbstractObject
                 }
                 if ($fileChange || $folderChange) {
                     if ($fileChange) {
-                        $logger->info("notify: file changes");
+                        $log->info("notify: file changes");
                     }
                     if ($folderChange) {
-                        $logger->info("notify: directory changes");
+                        $log->info("notify: directory changes");
                     }
                     $this->executor->restart();
                     if ($folderChange) {
@@ -156,8 +171,8 @@ class Monitor extends AbstractObject
      */
     public function stop()
     {
-        Logger::make(app()->get("log"))->info("monitor stop");
-        $this->_notify and fclose($this->_notify);
+        $this->log->info("monitor stop");
+        $this->notify and fclose($this->notify);
     }
 
     /**

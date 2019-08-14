@@ -1,21 +1,21 @@
 <?php
 
-namespace Cli\Models;
+namespace SwooleFor\Forms;
 
 use Mix\Validate\Validator;
 
 /**
- * Class RunForm
- * @package Cli\Models
+ * Class MainForm
+ * @package SwooleFor\Forms
  * @author liu,jian <coder.keda@gmail.com>
  */
-class RunForm extends Validator
+class MainForm extends Validator
 {
 
     /**
      * @var string
      */
-    public $cmd;
+    public $exec;
 
     /**
      * @var string
@@ -49,7 +49,7 @@ class RunForm extends Validator
     public function rules()
     {
         return [
-            'cmd'    => ['string', 'filter' => ['trim']],
+            'exec'   => ['string', 'filter' => ['trim']],
             'daemon' => ['in', 'range' => [1, 0], 'strict' => true],
             'watch'  => ['string', 'filter' => ['trim']],
             'delay'  => ['integer', 'unsigned' => true],
@@ -65,7 +65,7 @@ class RunForm extends Validator
     public function scenarios()
     {
         return [
-            'main' => ['required' => ['cmd'], 'optional' => ['daemon', 'watch', 'delay', 'ext', 'signal']],
+            'main' => ['required' => ['exec'], 'optional' => ['daemon', 'watch', 'delay', 'ext', 'signal']],
         ];
     }
 
@@ -76,7 +76,7 @@ class RunForm extends Validator
     public function messages()
     {
         return [
-            'cmd.required'   => '\'--cmd\' option cannot be empty.',
+            'exec.required'  => '\'--exec\' option cannot be empty.',
             'delay.integer'  => '\'--delay\' option can only be number.',
             'signal.integer' => '\'--signal\' option can only be number.',
         ];

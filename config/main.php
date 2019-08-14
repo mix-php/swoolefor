@@ -7,7 +7,7 @@ return [
     'appName'          => 'SwooleFor',
 
     // 应用版本
-    'appVersion'       => '1.1.0',
+    'appVersion'       => '1.1.1',
 
     // 应用调试
     'appDebug'         => false,
@@ -24,17 +24,15 @@ return [
     // 命令
     'commands'         => [
 
-        'run' => [
-            'Run',
-            'description' => "\tRun your swoole application",
-            'options'     => [
-                [['c', 'cmd'], 'description' => 'Swoole application or other script start command'],
-                [['d', 'daemon'], 'description' => 'Run in the background'],
-                ['watch', 'description' => "Watch code file directory"],
-                ['delay', 'description' => "File change delay processing (seconds)"],
-                ['ext', 'description' => "\tMonitor only changes to these extensions"],
-                ['signal', 'description' => "Send this signal to the process"],
-            ],
+        \SwooleFor\Commands\MainCommand::class,
+        'description' => "\tRun your swoole application",
+        'options'     => [
+            [['e', 'exec'], 'description' => 'Swoole application or other script start command'],
+            [['d', 'daemon'], 'description' => 'Run in the background'],
+            ['watch', 'description' => "Watch code file directory"],
+            ['delay', 'description' => "File change delay processing (seconds)"],
+            ['ext', 'description' => "\tMonitor only changes to these extensions"],
+            ['signal', 'description' => "Send this signal to the process"],
         ],
 
     ],

@@ -1,22 +1,23 @@
 <?php
 
-namespace Cli\Libraries;
+namespace SwooleFor\Libraries;
 
-use Mix\Core\Bean\AbstractObject;
+use Mix\Bean\BeanInjector;
 use Mix\Helper\ProcessHelper;
 use Mix\Log\Logger;
 
 /**
  * Class Executor
- * @package Cli\Libraries
+ * @package SwooleFor\Libraries
+ * @author liu,jian <coder.keda@gmail.com>
  */
-class Executor extends AbstractObject
+class Executor
 {
 
     /**
      * @var string
      */
-    public $cmd;
+    public $exec;
 
     /**
      * @var int
@@ -24,14 +25,29 @@ class Executor extends AbstractObject
     public $signal;
 
     /**
+     * @var Logger
+     */
+    protected $log;
+
+    /**
      * @var int
      */
-    protected $_pid;
+    protected $pid;
 
     /**
      * @var bool
      */
-    protected $_quit = false;
+    protected $quit = false;
+
+    /**
+     * Executor constructor.
+     * @param $config
+     */
+    public function __construct($config)
+    {
+        BeanInjector::inject($this, $config);
+        $this->log = context()->get('log');
+    }
 
     /**
      * 启动
@@ -39,29 +55,28 @@ class Executor extends AbstractObject
     public function start()
     {
         // 输出信息
-        $logger = Logger::make(app()->get("log"));
-        $logger->info("executor start, cmd: [{$this->cmd}]");
-        xgo(function () {
-            $logger = Logger::make(app()->get("log"));
+        $log = $this->log;
+        $log->info("executor start, exec: [{$this->exec}]");
+        xgo(function () use ($log) {
             // fork进程
             $descriptorspec = [
                 0 => ["pipe", "r"], // 标准输入，子进程从此管道中读取数据
                 1 => ["pipe", "w"], // 标准输出，子进程向此管道中写入数据
                 2 => ["pipe", "w"], // 标准错误
             ];
-            $process        = proc_open($this->cmd, $descriptorspec, $pipes);
+            $process        = proc_open($this->exec, $descriptorspec, $pipes);
             $status         = proc_get_status($process);
-            $this->_pid     = $status['pid'];
-            $logger->info('fork sub process, pid: {pid}', ['pid' => $this->_pid]);
+            $this->pid      = $status['pid'];
+            $log->info('fork sub process, pid: {pid}', ['pid' => $this->pid]);
             // 等待进程停止
             do {
                 stream_get_contents($pipes[2]);
                 $status = proc_get_status($process);
             } while ($status['running']);
             // 获取最新状态
-            $logger->info('sub process exit, pid: {pid}, exitcode: {exitcode}, termsig: {termsig}, stopsig: {stopsig}', ['pid' => $this->_pid, 'exitcode' => $status['exitcode'], 'termsig' => $status['termsig'], 'stopsig' => $status['stopsig']]);
+            $log->info('sub process exit, pid: {pid}, exitcode: {exitcode}, termsig: {termsig}, stopsig: {stopsig}', ['pid' => $this->pid, 'exitcode' => $status['exitcode'], 'termsig' => $status['termsig'], 'stopsig' => $status['stopsig']]);
             // 重新fork进程
-            $this->_quit or $this->start();
+            $this->quit or $this->start();
         });
     }
 
@@ -70,15 +85,15 @@ class Executor extends AbstractObject
      */
     public function stop()
     {
-        $logger   = Logger::make(app()->get("log"));
-        $pid      = $this->_pid;
+        $log      = $this->log;
+        $pid      = $this->pid;
         $signal   = (int)$this->signal;
         $waitTime = 60 * 1000000; // 超时时间
         // 标记退出
-        $this->_quit = true;
+        $this->quit = true;
         // kill进程
-        $logger->info('executor stop');
-        $logger->info('signal to process, pid: {pid}, signal: {signal}', ['pid' => $pid, 'signal' => $signal]);
+        $log->info('executor stop');
+        $log->info('signal to process, pid: {pid}, signal: {signal}', ['pid' => $pid, 'signal' => $signal]);
         ProcessHelper::kill($pid, $signal);
         while (static::isRunning($pid) && $waitTime > 0) {
             $interval = 100000;
@@ -86,7 +101,7 @@ class Executor extends AbstractObject
             $waitTime -= $interval;
         }
         if (static::isRunning($pid)) {
-            $logger->info('executor stop timeout, kill -9 pid: {pid}', ['pid' => $this->_pid]);
+            $log->info('executor stop timeout, kill -9 pid: {pid}', ['pid' => $this->pid]);
             ProcessHelper::kill($pid, SIGKILL);
         }
     }
@@ -96,9 +111,9 @@ class Executor extends AbstractObject
      */
     public function restart()
     {
-        $pid    = $this->_pid;
+        $pid    = $this->pid;
         $signal = (int)$this->signal;
-        Logger::make(app()->get("log"))->info('signal to process, pid: {pid}, signal: {signal}', ['pid' => $pid, 'signal' => $signal]);
+        $this->log->info('signal to process, pid: {pid}, signal: {signal}', ['pid' => $pid, 'signal' => $signal]);
         ProcessHelper::kill($pid, $this->signal);
     }
 
