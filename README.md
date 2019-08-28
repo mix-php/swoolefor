@@ -186,6 +186,12 @@ php swoolefor.phar -e "php /data/bin/easyswoole start"
 php swoolefor.phar -e "php /data/bin/laravels start"
 ```
 
+- Hyperf
+
+```
+php swoolefor.phar -e "php /data/bin/hyperf start"
+```
+
 ## License
 
 Apache License Version 2.0, http://www.apache.org/licenses/
