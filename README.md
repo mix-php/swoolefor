@@ -10,7 +10,7 @@ SwooleFor 的定位就如同 PHP 版本的 [nodemon](https://www.npmjs.com/packa
 
 ## 依赖扩展 (Depend extensions)
 
-- [ext-swoole >= v4.4](https://github.com/swoole/swoole-src/)
+- [ext-swoole >= v4.4.5](https://github.com/swoole/swoole-src/)
 - [ext-inotify](http://pecl.php.net/package/inotify)
 
 ## 下载 (Download)
