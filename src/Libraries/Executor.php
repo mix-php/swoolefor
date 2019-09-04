@@ -76,7 +76,7 @@ class Executor
             } while ($status['running']);
             $log->info('sub process exit, pid: {pid}, exitcode: {exitcode}, termsig: {termsig}, stopsig: {stopsig}', ['pid' => $this->pid, 'exitcode' => $status['exitcode'], 'termsig' => $status['termsig'], 'stopsig' => $status['stopsig']]);
             // 进程终止太快处理
-            if (static::microtime() - $forkTime < 500) {
+            if (static::microtime() - $forkTime < 0.5) {
                 $log->warning('sub process exit too fast, sleep 2 seconds');
                 sleep(2);
             }
