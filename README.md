@@ -169,6 +169,12 @@ php swoolefor.phar --exec="php app.php" --signal=1
 php swoolefor.phar -e "php /data/bin/mix-httpd start -c /data/applications/http/config/httpd.php"
 ```
 
+- Hyperf
+
+```
+php swoolefor.phar -e "php /data/bin/hyperf start"
+```
+
 - Swoft:
 
 ```
