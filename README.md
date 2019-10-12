@@ -11,10 +11,11 @@ SwooleFor 的定位就如同 PHP 版本的 [nodemon](https://www.npmjs.com/packa
 ## 依赖扩展 (Depend extensions)
 
 - [ext-swoole >= v4.4.5](https://github.com/swoole/swoole-src/)
-- [ext-inotify](http://pecl.php.net/package/inotify)
+- [ext-inotify](http://pecl.php.net/package/inotify) (可选 / optional)
 
 ## 下载 (Download)
 
+- [swoolefor.phar v1.1.3](https://github.com/mix-php/swoolefor/releases/download/v1.1.3/swoolefor.phar)
 - [swoolefor.phar v1.1.2](https://github.com/mix-php/swoolefor/releases/download/v1.1.2/swoolefor.phar)
 - [swoolefor.phar v1.1.1](https://github.com/mix-php/swoolefor/releases/download/v1.1.1/swoolefor.phar)
 - [swoolefor.phar v1.0.2](https://github.com/mix-php/swoolefor/releases/download/v1.0.2/swoolefor.phar)
@@ -34,6 +35,12 @@ php swoolefor.phar --exec="php app.php arg..."
 php -d disable_functions='' swoolefor.phar --exec="php app.php arg..."
 ```
 
+当系统环境对 inotify 扩展无法支持时，可通过不使用 inotify 切换为文件扫描的方式捕获代码更新：
+
+```
+php swoolefor.phar --exec="php app.php arg..." --no-inotify
+```
+
 启动成功：
 
 ```
@@ -41,7 +48,7 @@ php -d disable_functions='' swoolefor.phar --exec="php app.php arg..."
   / ___/      ______  ____  / /__  / ____/___  _____
   \__ \ | /| / / __ \/ __ \/ / _ \/ /_  / __ \/ ___/
  ___/ / |/ |/ / /_/ / /_/ / /  __/ __/ / /_/ / /    
-/____/|__/|__/\____/\____/_/\___/_/    \____/_/  Version: 1.1.1, Swoole: 4.4.0
+/____/|__/|__/\____/\____/_/\___/_/    \____/_/  Version: 1.1.3, Swoole: 4.4.5, Use: inotify
 
 [info] 2019-08-14 11:51:05.937 <920> [message] executor start, exec: [php /data/bin/mix-httpd start]
 [info] 2019-08-14 11:51:05.938 <920> [message] fork sub process, pid: 921
@@ -59,6 +66,7 @@ php swoolefor.phar --help
 
 - `-e, --exec`	Swoole application or other script start command
 - `-d, --daemon`	Run in the background
+- `--no-inotify` Do not use the inotify extension
 - `--watch`	Watch code file directory
 - `--delay`	File change delay processing (seconds)
 - `--ext`		Monitor only changes to these extensions
@@ -95,7 +103,7 @@ php swoolefor.phar --exec="python app.py"
 
 ## 在后台执行
 
-SwooleFor 本身可以在后台执行，这样可以脱离终端，增加 `--daemon` 即可
+SwooleFor 本身可以在后台执行，这样可以脱离终端，增加 `--daemon` 即可。
 
 ```
 php swoolefor.phar --exec="node app.js" --daemon
@@ -105,6 +113,14 @@ php swoolefor.phar --exec="node app.js" --daemon
 
 ```
 php swoolefor.phar --exec="node app.js" -d
+```
+
+## 不使用 inotify 
+
+当系统环境对 inotify 扩展无法支持时，可通过不使用 inotify 切换为文件扫描的方式捕获代码更新。
+
+```
+php swoolefor.phar --exec="node app.js" --no-inotify
 ```
 
 ## 指定监控目录
@@ -134,7 +150,7 @@ php swoolefor.phar --exec="php app.php" --delay=5
 
 ## 指定观察的扩展名
 
-`--ext` 默认为 `php,json`，当需要观察其他扩展名时可配置
+`--ext` 默认为 `php,json`，当需要观察其他扩展名时可配置。
 
 ```
 php swoolefor.phar --exec="php app.php" --ext=php,json,ini
@@ -143,7 +159,7 @@ php swoolefor.phar --exec="php app.php" --ext=php,json,ini
 ## 重启时发送的信号
 
 
-程序重启时终止进程是通过给进程发送信号完成的，当我们需要指定信号时
+程序重启时终止进程是通过给进程发送信号完成的，当我们需要指定信号时。
 
 
 `--signal` 默认为 `15`
