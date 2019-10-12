@@ -1,6 +1,6 @@
 <?php
 
-namespace SwooleFor\Libraries;
+namespace SwooleFor\Executor;
 
 use Mix\Bean\BeanInjector;
 use Mix\Helper\ProcessHelper;
@@ -8,7 +8,7 @@ use Mix\Log\Logger;
 
 /**
  * Class Executor
- * @package SwooleFor\Libraries
+ * @package SwooleFor\Executor
  * @author liu,jian <coder.keda@gmail.com>
  */
 class Executor

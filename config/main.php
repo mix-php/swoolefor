@@ -29,6 +29,7 @@ return [
         'options'     => [
             [['e', 'exec'], 'description' => 'Swoole application or other script start command'],
             [['d', 'daemon'], 'description' => 'Run in the background'],
+            ['no-inotify', 'description' => "Do not use the inotify extension"],
             ['watch', 'description' => "Watch code file directory"],
             ['delay', 'description' => "File change delay processing (seconds)"],
             ['ext', 'description' => "\tMonitor only changes to these extensions"],

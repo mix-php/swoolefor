@@ -1,16 +1,18 @@
 <?php
 
-namespace SwooleFor\Libraries;
+namespace SwooleFor\Monitor;
 
 use Mix\Bean\BeanInjector;
 use Mix\Log\Logger;
+use SwooleFor\Executor\Executor;
+use SwooleFor\Helper\MonitorHelper;
 
 /**
- * Class Monitor
- * @package SwooleFor\Libraries
+ * Class InotifyMonitor
+ * @package SwooleFor\Monitor
  * @author liu,jian <coder.keda@gmail.com>
  */
-class Monitor
+class InotifyMonitor
 {
 
     /**
@@ -59,46 +61,6 @@ class Monitor
     }
 
     /**
-     * 构建扩展名数组
-     * @param $ext
-     * @return array
-     */
-    public static function ext($ext)
-    {
-        $slice = explode(',', $ext);
-        $data  = [];
-        foreach ($slice as $key => $value) {
-            if (substr($value, 0, 1) != '.') {
-                $data[] = ".{$value}";
-            }
-        }
-        return $data;
-    }
-
-    /**
-     * 通过命令获取观察目录
-     * @param $cmd
-     * @return string
-     */
-    public static function dir($cmd)
-    {
-        $slice = explode(' ', $cmd);
-        array_shift($slice);
-        $file = array_shift($slice); // 取第二个参数
-        if (!$file) {
-            return '';
-        }
-        $dir = dirname($file);
-        if (basename($dir) == 'bin') {
-            $dir = dirname($dir);
-        }
-        if ($dir == '\\' || $dir == '.') {
-            return '';
-        }
-        return $dir;
-    }
-
-    /**
      * 启动
      */
     public function start()
@@ -114,7 +76,7 @@ class Monitor
         $log->info("ext: " . implode(',', $this->ext));
         xgo(function () use ($log) {
             // 监听全部目录
-            $folders      = static::folders($this->dir);
+            $folders      = MonitorHelper::folders($this->dir);
             $this->notify = $notify = inotify_init();
             foreach ($folders as $folder) {
                 $ret = inotify_add_watch($notify, $folder, IN_CLOSE_WRITE | IN_CREATE | IN_DELETE);
@@ -173,36 +135,6 @@ class Monitor
     {
         $this->log->info("monitor stop");
         $this->notify and fclose($this->notify);
-    }
-
-    /**
-     * 获取全部文件夹
-     * @param $dir
-     * @return array
-     */
-    protected static function folders($path)
-    {
-        $dh = opendir($path);
-        if (!$dh) {
-            return [];
-        }
-        $dirs   = [];
-        $dirs[] = $path;
-        while (false !== ($file = readdir($dh))) {
-            if ($file == '.' || $file == '..') {
-                continue;
-            }
-            $full = $path . '/' . $file;
-            if (is_dir($full)) {
-                if (substr($file, 0, 1) == '.') {
-                    continue;
-                }
-                $dirs[] = $full;
-                $dirs   = array_merge($dirs, static::folders($full));
-            }
-        }
-        closedir($dh);
-        return $dirs;
     }
 
 }
