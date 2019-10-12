@@ -35,7 +35,7 @@ php swoolefor.phar --exec="php app.php arg..."
 php -d disable_functions='' swoolefor.phar --exec="php app.php arg..."
 ```
 
-当系统环境对 inotify 扩展无法支持时，可通过不使用 inotify 切换为文件扫描的方式捕获代码更新：
+当系统环境对 `inotify` 扩展无法支持时，可通过切换为文件扫描的方式捕获代码更新：
 
 ```
 php swoolefor.phar --exec="php app.php arg..." --no-inotify
@@ -117,7 +117,7 @@ php swoolefor.phar --exec="node app.js" -d
 
 ## 不使用 inotify 
 
-当系统环境对 inotify 扩展无法支持时，可通过不使用 inotify 切换为文件扫描的方式捕获代码更新。
+当系统环境对 `inotify` 扩展无法支持时，可通过切换为文件扫描的方式捕获代码更新。
 
 ```
 php swoolefor.phar --exec="node app.js" --no-inotify
