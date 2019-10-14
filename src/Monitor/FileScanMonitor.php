@@ -135,7 +135,7 @@ class FileScanMonitor
     public function stop()
     {
         $this->log->info("monitor stop");
-        $this->timer->clear();
+        $this->timer and $this->timer->clear();
     }
 
 }
