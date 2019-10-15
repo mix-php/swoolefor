@@ -3,6 +3,7 @@
 namespace SwooleFor\Executor;
 
 use Mix\Bean\BeanInjector;
+use Mix\Concurrent\Timer;
 use Mix\Helper\ProcessHelper;
 use Mix\Log\Logger;
 
@@ -40,6 +41,11 @@ class Executor
     protected $quit = false;
 
     /**
+     * @var Timer
+     */
+    protected $timer;
+
+    /**
      * Executor constructor.
      * @param $config
      */
@@ -66,11 +72,12 @@ class Executor
             ];
             $process        = proc_open($this->exec, $descriptorspec, $pipes);
             $status         = proc_get_status($process);
+            $this->pid      = $status['pid'];
 
             // 获取真实pid (在 ubuntu 系统 proc_open 会 sh -c 中转执行命令，因此 proc_get_status 获取不到真实的 pid)
-            $this->pid = null;
-            for ($i = 0; $i < 3; $i++) {
-                usleep(100);
+            $this->timer and $this->timer->clear();
+            $timer = Timer::new();
+            $timer->tick(1000, function () use ($status, $log, $timer) {
                 $output = null;
                 exec(sprintf('ps --ppid %s', $status['pid']), $output);
                 $output = array_filter($output);
@@ -78,13 +85,12 @@ class Executor
                     preg_match_all('/[0-9]+/', $output[1], $matches);
                     if (isset($matches[0][0])) {
                         $this->pid = $matches[0][0];
+                        $log->info('scan to real sub process pid: {pid}', ['pid' => $this->pid]);
+                        $timer->clear();
                     }
                 }
-                if ($this->pid) {
-                    break;
-                }
-            }
-            $this->pid or $this->pid = $status['pid'];
+            });
+            $this->timer = $timer;
 
             $log->info('fork sub process, pid: {pid}', ['pid' => $this->pid]);
             $forkTime = static::microtime();
@@ -138,6 +144,7 @@ class Executor
             $log->info('executor stop timeout, kill -9 pid: {pid}', ['pid' => $this->pid]);
             ProcessHelper::kill($pid, SIGKILL);
         }
+        $this->timer and $this->timer->clear();
     }
 
     /**

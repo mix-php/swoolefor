@@ -37,11 +37,6 @@ class FileScanMonitor
     public $executor;
 
     /**
-     * @var Timer
-     */
-    public $timer;
-
-    /**
      * @var Logger
      */
     protected $log;
@@ -50,6 +45,11 @@ class FileScanMonitor
      * @var bool
      */
     protected $quit = false;
+
+    /**
+     * @var Timer
+     */
+    protected $timer;
 
     /**
      * @var array
