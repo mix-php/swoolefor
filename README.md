@@ -29,7 +29,7 @@ SwooleFor 的定位就如同 PHP 版本的 [nodemon](https://www.npmjs.com/packa
 php swoolefor.phar --exec="php app.php arg..."
 ```
 
-如果 `disable_functions` 禁用了 `proc_open` 方法，按如下方法执行：
+如果 `disable_functions` 禁用了 `proc_open`、`exec` 方法，按如下方法执行：
 
 ```
 php -d disable_functions='' swoolefor.phar --exec="php app.php arg..."
@@ -182,31 +182,31 @@ php swoolefor.phar --exec="php app.php" --signal=1
 - MixPHP: 
 
 ```
-php swoolefor.phar -e "php /data/bin/mix-httpd start -c /data/applications/http/config/httpd.php"
+php swoolefor.phar --exec="php /data/bin/mix.php http:start"
 ```
 
 - Hyperf
 
 ```
-php swoolefor.phar -e "php /data/bin/hyperf start"
+php swoolefor.phar --exec="php /data/bin/hyperf start"
 ```
 
 - Swoft:
 
 ```
-php swoolefor.phar -e "php /data/bin/swoft http:start"
+php swoolefor.phar --exec="php /data/bin/swoft http:start"
 ```
 
 - EasySwoole: 
 
 ```
-php swoolefor.phar -e "php /data/bin/easyswoole start"
+php swoolefor.phar --exec="php /data/bin/easyswoole start"
 ```
 
 - laravel-s
 
 ```
-php swoolefor.phar -e "php /data/bin/laravels start"
+php swoolefor.phar --exec="php /data/bin/laravels start"
 ```
 
 ## License
