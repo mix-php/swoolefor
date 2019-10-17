@@ -4,7 +4,7 @@
 return [
 
     // 应用名称
-    'appName'    => 'mix-phar',
+    'appName'    => 'SwooleFor',
 
     // 应用版本
     'appVersion' => '1.1.5',
