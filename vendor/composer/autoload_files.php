@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'c319a8e6eab4f916581eb6c4d4853b62' => $vendorDir . '/mix/concurrent/src/functions.php',
     '825c75c82b5f8f150ad7373d3dd28397' => $vendorDir . '/mix/console/src/functions.php',
-    'ad3feb0e44c35c4c67012b5a70096f0e' => $baseDir . '/src/functions.php',
+    'df608db62d4dca488825420a811d1bac' => $baseDir . '/app/src/functions.php',
 );

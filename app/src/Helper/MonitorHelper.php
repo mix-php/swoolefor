@@ -1,10 +1,10 @@
 <?php
 
-namespace SwooleFor\Helper;
+namespace App\Helper;
 
 /**
  * Class MonitorHelper
- * @package SwooleFor\Helper
+ * @package App\Helper
  * @author liu,jian <coder.keda@gmail.com>
  */
 class MonitorHelper

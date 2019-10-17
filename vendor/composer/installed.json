@@ -1,17 +1,17 @@
 [
     {
         "name": "mix/bean",
-        "version": "v2.1.x-dev",
-        "version_normalized": "2.1.9999999.9999999-dev",
+        "version": "v2.1.0-RC",
+        "version_normalized": "2.1.0.0-RC",
         "source": {
             "type": "git",
             "url": "https://github.com/mix-php/bean.git",
-            "reference": "b901a6cd4b04d5de4bfeb5576f0aaaf463cb34c8"
+            "reference": "b54d19a1ffa7994084db3b362b017367639883d1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mix-php/bean/zipball/b901a6cd4b04d5de4bfeb5576f0aaaf463cb34c8",
-            "reference": "b901a6cd4b04d5de4bfeb5576f0aaaf463cb34c8",
+            "url": "https://api.github.com/repos/mix-php/bean/zipball/b54d19a1ffa7994084db3b362b017367639883d1",
+            "reference": "b54d19a1ffa7994084db3b362b017367639883d1",
             "shasum": "",
             "mirrors": [
                 {
@@ -25,9 +25,9 @@
             "php-di/phpdoc-reader": "~2.1",
             "psr/container": "~1.0"
         },
-        "time": "2019-07-16T12:26:50+00:00",
+        "time": "2019-10-10T11:21:05+00:00",
         "type": "framework",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Mix\\Bean\\": "src/"
@@ -47,23 +47,23 @@
         "homepage": "http://www.mixphp.cn/",
         "keywords": [
             "framework",
-            "mixphp",
+            "mix",
             "swoole"
         ]
     },
     {
         "name": "mix/concurrent",
-        "version": "v2.1.x-dev",
-        "version_normalized": "2.1.9999999.9999999-dev",
+        "version": "v2.1.0-RC",
+        "version_normalized": "2.1.0.0-RC",
         "source": {
             "type": "git",
             "url": "https://github.com/mix-php/concurrent.git",
-            "reference": "b51eee1bcfb264e549d149fcef5811bd1eb10d20"
+            "reference": "43b147f3534e03f93ac01284b5adb5fc47c00a98"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mix-php/concurrent/zipball/b51eee1bcfb264e549d149fcef5811bd1eb10d20",
-            "reference": "b51eee1bcfb264e549d149fcef5811bd1eb10d20",
+            "url": "https://api.github.com/repos/mix-php/concurrent/zipball/43b147f3534e03f93ac01284b5adb5fc47c00a98",
+            "reference": "43b147f3534e03f93ac01284b5adb5fc47c00a98",
             "shasum": "",
             "mirrors": [
                 {
@@ -73,16 +73,19 @@
             ]
         },
         "require": {
-            "mix/bean": "v2.1.x-dev",
+            "mix/bean": "v2.1.0-RC",
             "php": ">=7.0.0"
         },
-        "time": "2019-08-14T02:22:07+00:00",
+        "time": "2019-10-10T11:21:15+00:00",
         "type": "framework",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Mix\\Concurrent\\": "src/"
-            }
+            },
+            "files": [
+                "src/functions.php"
+            ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -98,23 +101,23 @@
         "homepage": "http://www.mixphp.cn/",
         "keywords": [
             "framework",
-            "mixphp",
+            "mix",
             "swoole"
         ]
     },
     {
         "name": "mix/console",
-        "version": "v2.1.x-dev",
-        "version_normalized": "2.1.9999999.9999999-dev",
+        "version": "v2.1.0-RC",
+        "version_normalized": "2.1.0.0-RC",
         "source": {
             "type": "git",
             "url": "https://github.com/mix-php/console.git",
-            "reference": "5b1bbcbd25994b28d49ac415fcc84045082dc79e"
+            "reference": "80d7710a3b014a3943dd6f17eaeb216b74c5e6a0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mix-php/console/zipball/5b1bbcbd25994b28d49ac415fcc84045082dc79e",
-            "reference": "5b1bbcbd25994b28d49ac415fcc84045082dc79e",
+            "url": "https://api.github.com/repos/mix-php/console/zipball/80d7710a3b014a3943dd6f17eaeb216b74c5e6a0",
+            "reference": "80d7710a3b014a3943dd6f17eaeb216b74c5e6a0",
             "shasum": "",
             "mirrors": [
                 {
@@ -124,13 +127,13 @@
             ]
         },
         "require": {
-            "mix/bean": "v2.1.x-dev",
+            "mix/bean": "v2.1.0-RC",
             "php": ">=7.0.0",
             "psr/log": "~1.0"
         },
-        "time": "2019-07-16T12:26:30+00:00",
+        "time": "2019-10-10T11:21:20+00:00",
         "type": "framework",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Mix\\Console\\": "src/"
@@ -156,23 +159,23 @@
         "homepage": "http://www.mixphp.cn/",
         "keywords": [
             "framework",
-            "mixphp",
+            "mix",
             "swoole"
         ]
     },
     {
         "name": "mix/helper",
-        "version": "v2.1.x-dev",
-        "version_normalized": "2.1.9999999.9999999-dev",
+        "version": "v2.1.0-RC",
+        "version_normalized": "2.1.0.0-RC",
         "source": {
             "type": "git",
             "url": "https://github.com/mix-php/helper.git",
-            "reference": "0b94bb5a91b0555497ac5d47bb4d137884b99b89"
+            "reference": "bcae0d48b0688d071e0c291d03eda5f51152ad35"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mix-php/helper/zipball/0b94bb5a91b0555497ac5d47bb4d137884b99b89",
-            "reference": "0b94bb5a91b0555497ac5d47bb4d137884b99b89",
+            "url": "https://api.github.com/repos/mix-php/helper/zipball/bcae0d48b0688d071e0c291d03eda5f51152ad35",
+            "reference": "bcae0d48b0688d071e0c291d03eda5f51152ad35",
             "shasum": "",
             "mirrors": [
                 {
@@ -182,11 +185,12 @@
             ]
         },
         "require": {
+            "ext-json": "*",
             "php": ">=7.0.0"
         },
-        "time": "2019-07-16T11:37:55+00:00",
+        "time": "2019-10-10T11:21:58+00:00",
         "type": "framework",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Mix\\Helper\\": "src/"
@@ -206,23 +210,23 @@
         "homepage": "http://www.mixphp.cn/",
         "keywords": [
             "framework",
-            "mixphp",
+            "mix",
             "swoole"
         ]
     },
     {
         "name": "mix/log",
-        "version": "v2.1.x-dev",
-        "version_normalized": "2.1.9999999.9999999-dev",
+        "version": "v2.1.0-RC",
+        "version_normalized": "2.1.0.0-RC",
         "source": {
             "type": "git",
             "url": "https://github.com/mix-php/log.git",
-            "reference": "24417a58fef9bf8f104146e3dcc92e26e8fe2f27"
+            "reference": "ad2a2ba2668263f929e57cbc6560bdad7f09991c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mix-php/log/zipball/24417a58fef9bf8f104146e3dcc92e26e8fe2f27",
-            "reference": "24417a58fef9bf8f104146e3dcc92e26e8fe2f27",
+            "url": "https://api.github.com/repos/mix-php/log/zipball/ad2a2ba2668263f929e57cbc6560bdad7f09991c",
+            "reference": "ad2a2ba2668263f929e57cbc6560bdad7f09991c",
             "shasum": "",
             "mirrors": [
                 {
@@ -232,13 +236,13 @@
             ]
         },
         "require": {
-            "mix/bean": "v2.1.x-dev",
+            "mix/bean": "v2.1.0-RC",
             "php": ">=7.0.0",
             "psr/log": "~1.0"
         },
-        "time": "2019-07-17T11:32:14+00:00",
+        "time": "2019-10-10T11:22:15+00:00",
         "type": "framework",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Mix\\Log\\": "src/"
@@ -258,23 +262,23 @@
         "homepage": "http://www.mixphp.cn/",
         "keywords": [
             "framework",
-            "mixphp",
+            "mix",
             "swoole"
         ]
     },
     {
         "name": "mix/validate",
-        "version": "v2.1.x-dev",
-        "version_normalized": "2.1.9999999.9999999-dev",
+        "version": "v2.1.0-RC",
+        "version_normalized": "2.1.0.0-RC",
         "source": {
             "type": "git",
             "url": "https://github.com/mix-php/validate.git",
-            "reference": "6ce8e3f590caa1946e25ec6c01efe2580755d5d2"
+            "reference": "6dcb3b11c169039e27c0241dad993f913ac72ba9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mix-php/validate/zipball/6ce8e3f590caa1946e25ec6c01efe2580755d5d2",
-            "reference": "6ce8e3f590caa1946e25ec6c01efe2580755d5d2",
+            "url": "https://api.github.com/repos/mix-php/validate/zipball/6dcb3b11c169039e27c0241dad993f913ac72ba9",
+            "reference": "6dcb3b11c169039e27c0241dad993f913ac72ba9",
             "shasum": "",
             "mirrors": [
                 {
@@ -284,13 +288,14 @@
             ]
         },
         "require": {
-            "mix/bean": "v2.1.x-dev",
+            "ext-mbstring": "*",
+            "mix/bean": "v2.1.0-RC",
             "php": ">=7.0.0",
             "psr/http-message": "^1.0"
         },
-        "time": "2019-07-27T04:29:41+00:00",
+        "time": "2019-10-10T11:23:00+00:00",
         "type": "framework",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Mix\\Validate\\": "src/"
@@ -310,23 +315,23 @@
         "homepage": "http://www.mixphp.cn/",
         "keywords": [
             "framework",
-            "mixphp",
+            "mix",
             "swoole"
         ]
     },
     {
         "name": "php-di/phpdoc-reader",
-        "version": "2.1.0",
-        "version_normalized": "2.1.0.0",
+        "version": "2.1.1",
+        "version_normalized": "2.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PHP-DI/PhpDocReader.git",
-            "reference": "7d0de60b9341933c8afd172a6255cd7557601e0e"
+            "reference": "15678f7451c020226807f520efb867ad26fbbfcf"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHP-DI/PhpDocReader/zipball/7d0de60b9341933c8afd172a6255cd7557601e0e",
-            "reference": "7d0de60b9341933c8afd172a6255cd7557601e0e",
+            "url": "https://api.github.com/repos/PHP-DI/PhpDocReader/zipball/15678f7451c020226807f520efb867ad26fbbfcf",
+            "reference": "15678f7451c020226807f520efb867ad26fbbfcf",
             "shasum": "",
             "mirrors": [
                 {
@@ -341,7 +346,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.6"
         },
-        "time": "2018-02-18T17:39:01+00:00",
+        "time": "2019-09-26T11:24:58+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -528,5 +533,46 @@
             "psr",
             "psr-3"
         ]
+    },
+    {
+        "name": "swoole/ide-helper",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/swoole/ide-helper.git",
+            "reference": "9b254a8cd71c6979478e789eb6d63c0f309ae893"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/swoole/ide-helper/zipball/9b254a8cd71c6979478e789eb6d63c0f309ae893",
+            "reference": "9b254a8cd71c6979478e789eb6d63c0f309ae893",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "require-dev": {
+            "squizlabs/php_codesniffer": "~3.4.0",
+            "symfony/filesystem": "~4.3.0",
+            "zendframework/zend-code": "~3.3.0"
+        },
+        "time": "2019-10-16T01:52:18+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Team Swoole",
+                "email": "team@swoole.com"
+            }
+        ],
+        "description": "IDE help files for Swoole."
     }
 ]

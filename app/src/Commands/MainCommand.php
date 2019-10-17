@@ -1,19 +1,19 @@
 <?php
 
-namespace SwooleFor\Commands;
+namespace App\Commands;
 
-use SwooleFor\Executor\Executor;
-use SwooleFor\Helper\MonitorHelper;
-use SwooleFor\Monitor\FileScanMonitor;
-use SwooleFor\Monitor\InotifyMonitor;
-use SwooleFor\Forms\MainForm;
+use App\Executor\Executor;
+use App\Helper\MonitorHelper;
+use App\Monitor\FileScanMonitor;
+use App\Monitor\InotifyMonitor;
+use App\Forms\MainForm;
 use Mix\Console\CommandLine\Flag;
-use Mix\Concurrent\Coroutine\Channel;
+use Swoole\Coroutine\Channel;
 use Mix\Helper\ProcessHelper;
 
 /**
  * Class MainCommand
- * @package SwooleFor\Commands
+ * @package App\Commands
  * @author liu,jian <coder.keda@gmail.com>
  */
 class MainCommand

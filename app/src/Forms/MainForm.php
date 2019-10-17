@@ -1,12 +1,12 @@
 <?php
 
-namespace SwooleFor\Forms;
+namespace App\Forms;
 
 use Mix\Validate\Validator;
 
 /**
  * Class MainForm
- * @package SwooleFor\Forms
+ * @package App\Forms
  * @author liu,jian <coder.keda@gmail.com>
  */
 class MainForm extends Validator

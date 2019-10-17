@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'SwooleFor\\' => array($baseDir . '/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
@@ -17,4 +16,5 @@ return array(
     'Mix\\Console\\' => array($vendorDir . '/mix/console/src'),
     'Mix\\Concurrent\\' => array($vendorDir . '/mix/concurrent/src'),
     'Mix\\Bean\\' => array($vendorDir . '/mix/bean/src'),
+    'App\\' => array($baseDir . '/app/src'),
 );

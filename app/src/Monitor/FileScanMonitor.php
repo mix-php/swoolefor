@@ -1,16 +1,16 @@
 <?php
 
-namespace SwooleFor\Monitor;
+namespace App\Monitor;
 
 use Mix\Bean\BeanInjector;
 use Mix\Concurrent\Timer;
 use Mix\Log\Logger;
-use SwooleFor\Executor\Executor;
-use SwooleFor\Helper\MonitorHelper;
+use App\Executor\Executor;
+use App\Helper\MonitorHelper;
 
 /**
  * Class FileScanMonitor
- * @package SwooleFor\Monitor
+ * @package App\Monitor
  * @author liu,jian <coder.keda@gmail.com>
  */
 class FileScanMonitor

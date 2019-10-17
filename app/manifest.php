@@ -1,30 +1,33 @@
 <?php
 
-// Console应用配置
+// 应用清单
 return [
 
     // 应用名称
-    'appName'          => 'SwooleFor',
+    'appName'    => 'mix-phar',
 
     // 应用版本
-    'appVersion'       => '1.1.4',
+    'appVersion' => '1.1.5',
 
     // 应用调试
-    'appDebug'         => false,
+    'appDebug'   => true,
 
     // 基础路径
-    'basePath'         => str_replace(['phar://', '/'], ['', DIRECTORY_SEPARATOR], dirname(dirname(__DIR__))),
+    'basePath'   => str_replace(['phar://', '/'], ['', DIRECTORY_SEPARATOR], dirname(dirname(__DIR__))),
 
-    // 运行目录路径
-    'runtimePath'      => '',
-
-    // 命令命名空间
-    'commandNamespace' => 'SwooleFor\Commands',
+    // 协程配置
+    'coroutine'  => [
+        true,
+        [
+            'max_coroutine' => 300000,
+            'hook_flags'    => 1879048191 ^ 256, // SWOOLE_HOOK_ALL ^ SWOOLE_HOOK_FILE,
+        ],
+    ],
 
     // 命令
-    'commands'         => [
+    'commands'   => [
 
-        \SwooleFor\Commands\MainCommand::class,
+        \App\Commands\MainCommand::class,
         'description' => "\tRun your swoole application",
         'options'     => [
             [['e', 'exec'], 'description' => 'Swoole application or other script start command'],
@@ -39,7 +42,7 @@ return [
     ],
 
     // 依赖配置
-    'beans'            => [
+    'beans'      => [
 
         // 错误
         [

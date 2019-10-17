@@ -4,18 +4,15 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInited8741d8a36f04d8d4fdc28d501d3b63
+class ComposerStaticInit86b3a496cf90569bd86a3a05eee39cd2
 {
     public static $files = array (
+        'c319a8e6eab4f916581eb6c4d4853b62' => __DIR__ . '/..' . '/mix/concurrent/src/functions.php',
         '825c75c82b5f8f150ad7373d3dd28397' => __DIR__ . '/..' . '/mix/console/src/functions.php',
-        'ad3feb0e44c35c4c67012b5a70096f0e' => __DIR__ . '/../..' . '/src/functions.php',
+        'df608db62d4dca488825420a811d1bac' => __DIR__ . '/../..' . '/app/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'S' => 
-        array (
-            'SwooleFor\\' => 10,
-        ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
@@ -32,13 +29,13 @@ class ComposerStaticInited8741d8a36f04d8d4fdc28d501d3b63
             'Mix\\Concurrent\\' => 15,
             'Mix\\Bean\\' => 9,
         ),
+        'A' => 
+        array (
+            'App\\' => 4,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'SwooleFor\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
-        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
@@ -79,6 +76,10 @@ class ComposerStaticInited8741d8a36f04d8d4fdc28d501d3b63
         array (
             0 => __DIR__ . '/..' . '/mix/bean/src',
         ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/src',
+        ),
     );
 
     public static $classMap = array (
@@ -88,9 +89,9 @@ class ComposerStaticInited8741d8a36f04d8d4fdc28d501d3b63
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInited8741d8a36f04d8d4fdc28d501d3b63::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInited8741d8a36f04d8d4fdc28d501d3b63::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInited8741d8a36f04d8d4fdc28d501d3b63::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit86b3a496cf90569bd86a3a05eee39cd2::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit86b3a496cf90569bd86a3a05eee39cd2::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit86b3a496cf90569bd86a3a05eee39cd2::$classMap;
 
         }, null, ClassLoader::class);
     }

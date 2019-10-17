@@ -1,6 +1,6 @@
 <?php
 
-namespace SwooleFor\Executor;
+namespace App\Executor;
 
 use Mix\Bean\BeanInjector;
 use Mix\Concurrent\Timer;
@@ -9,7 +9,7 @@ use Mix\Log\Logger;
 
 /**
  * Class Executor
- * @package SwooleFor\Executor
+ * @package App\Executor
  * @author liu,jian <coder.keda@gmail.com>
  */
 class Executor

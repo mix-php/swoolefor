@@ -1,11 +1,12 @@
 {
-  "name": "mix/mix-phar",
-  "description": "Mix Phar (单执行文件命令行) http://www.mixphp.cn",
+  "name": "mix/mix-phar-skeleton",
+  "description": "Phar 命令行程序开发骨架 / Phar command line program development skeleton (http://mixphp.cn)",
   "type": "project",
   "keywords": [
     "framework",
-    "mixphp",
-    "swoole"
+    "mix",
+    "swoole",
+    "phar"
   ],
   "homepage": "http://www.mixphp.cn/",
   "license": "Apache-2.0",
@@ -16,22 +17,24 @@
     }
   ],
   "require": {
-    "php": ">=7.0.0",
-    "ext-json": "*",
-    "ext-mbstring": "*",
-    "mix/console": "v2.1.x-dev",
-    "mix/bean": "v2.1.x-dev",
-    "mix/log": "v2.1.x-dev",
-    "mix/validate": "v2.1.x-dev",
-    "mix/helper": "v2.1.x-dev",
-    "mix/concurrent": "v2.1.x-dev"
+    "php": ">=7.2.0",
+    "mix/console": "v2.1.0-RC",
+    "mix/bean": "v2.1.0-RC",
+    "mix/log": "v2.1.0-RC",
+    "mix/validate": "v2.1.0-RC",
+    "mix/helper": "v2.1.0-RC",
+    "mix/concurrent": "v2.1.0-RC"
   },
+  "require-dev": {
+    "swoole/ide-helper": "dev-master"
+  },
+  "minimum-stability": "RC",
   "autoload": {
     "psr-4": {
-      "SwooleFor\\": "src/"
+      "App\\": "app/src/"
     },
     "files": [
-      "src/functions.php"
+      "app/src/functions.php"
     ]
   }
 }
