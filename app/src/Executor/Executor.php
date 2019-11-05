@@ -74,23 +74,28 @@ class Executor
             $status         = proc_get_status($process);
             $this->pid      = $status['pid'];
 
-            // 获取真实pid (在 ubuntu 系统 proc_open 会 sh -c 中转执行命令，因此 proc_get_status 获取不到真实的 pid)
-            $this->timer and $this->timer->clear();
-            $timer = Timer::new();
-            $timer->tick(1000, function () use ($status, $log, $timer) {
-                $output = null;
-                exec(sprintf('ps --ppid %s', $status['pid']), $output);
-                $output = array_filter($output);
-                if (!empty($output[1])) {
-                    preg_match_all('/[0-9]+/', $output[1], $matches);
-                    if (isset($matches[0][0])) {
-                        $this->pid = $matches[0][0];
-                        $log->info('scan to real sub process pid: {pid}', ['pid' => $this->pid]);
-                        $timer->clear();
+            // 获取真实pid
+            // 在 Linux 的 Ubuntu(Debian) 系统中 proc_open 会使用 sh -c 中转执行命令，因此 proc_get_status 获取不到真实的 pid
+            // 在 Darwin 中因为 ps --ppid 无法使用，并且 proc_open 不会 sh -c 中转，因此不可执行以下代码
+            // 在 WINNT/WIN32/Windows/CYGWIN_NT 中因无 ps 命令，因此不可执行以下代码
+            if (stripos(PHP_OS, 'win') === false) {
+                $this->timer and $this->timer->clear();
+                $timer = Timer::new();
+                $timer->tick(1000, function () use ($status, $log, $timer) {
+                    $output = null;
+                    exec(sprintf('ps --ppid %s', $status['pid']), $output);
+                    $output = array_filter($output);
+                    if (!empty($output[1])) {
+                        preg_match_all('/[0-9]+/', $output[1], $matches);
+                        if (isset($matches[0][0])) {
+                            $this->pid = $matches[0][0];
+                            $log->info('scan to real sub process pid: {pid}', ['pid' => $this->pid]);
+                            $timer->clear();
+                        }
                     }
-                }
-            });
-            $this->timer = $timer;
+                });
+                $this->timer = $timer;
+            }
 
             $log->info('fork sub process, pid: {pid}', ['pid' => $this->pid]);
             $forkTime = static::microtime();
