@@ -8,6 +8,7 @@ use App\Monitor\FileScanMonitor;
 use App\Monitor\InotifyMonitor;
 use App\Forms\MainForm;
 use Mix\Console\CommandLine\Flag;
+use Mix\Helper\PhpHelper;
 use Swoole\Coroutine\Channel;
 use Mix\Helper\ProcessHelper;
 
@@ -43,16 +44,20 @@ class MainCommand
         }
         // 守护处理
         if ($model->daemon) {
+            if (PhpHelper::isMac()) {
+                println("Error: MacOS unsupport '-d/--daemon', please use [nohup php swoolefor.phar --exec=\"php app.php arg...\" &] instead.");
+                return;
+            }
             ProcessHelper::daemon();
         }
         // Swoole 判断
         if (!extension_loaded('swoole') || version_compare(swoole_version(), '4.4') < 0) {
-            println('Need swoole extension >= v4.4 to run, install: https://www.swoole.com/');
+            println('Error: need swoole extension >= v4.4 to run, install: https://www.swoole.com/');
             return;
         }
         // Inotify 判断
         if (!$model->noInotify && !extension_loaded('inotify')) {
-            println('Need inotify extension to run, install: http://pecl.php.net/package/inotify');
+            println('Error: need inotify extension to run, install: http://pecl.php.net/package/inotify');
             return;
         }
         // 欢迎信息

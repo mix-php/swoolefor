@@ -18,12 +18,12 @@
   ],
   "require": {
     "php": ">=7.2.0",
-    "mix/console": "v2.1.0-RC",
-    "mix/bean": "v2.1.0-RC",
-    "mix/log": "v2.1.0-RC",
-    "mix/validate": "v2.1.0-RC",
-    "mix/helper": "v2.1.0-RC",
-    "mix/concurrent": "v2.1.0-RC"
+    "mix/console": "~2.1.0",
+    "mix/bean": "~2.1.0",
+    "mix/log": "~2.1.0",
+    "mix/validate": "~2.1.0",
+    "mix/helper": "~2.1.0",
+    "mix/concurrent": "~2.1.0"
   },
   "require-dev": {
     "swoole/ide-helper": "dev-master"
