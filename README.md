@@ -15,6 +15,7 @@ SwooleFor 的定位就如同 PHP 版本的 [nodemon](https://www.npmjs.com/packa
 
 ## 下载 (Download)
 
+- [swoolefor.phar v1.1.6](https://github.com/mix-php/swoolefor/releases/download/v1.1.6/swoolefor.phar)
 - [swoolefor.phar v1.1.5](https://github.com/mix-php/swoolefor/releases/download/v1.1.5/swoolefor.phar)
 - [swoolefor.phar v1.1.4](https://github.com/mix-php/swoolefor/releases/download/v1.1.4/swoolefor.phar)
 - [swoolefor.phar v1.1.3](https://github.com/mix-php/swoolefor/releases/download/v1.1.3/swoolefor.phar)
