@@ -48,7 +48,7 @@ class MainCommand
         // Inotify 判断
         if (!$model->noInotify && !extension_loaded('inotify')) {
             println('Error: need inotify extension to run, install: http://pecl.php.net/package/inotify');
-            println('Tip: use \'--no-inotify\' to switch to file scanning');
+            println('Tip: use \'--no-inotify\' to switch to file scan');
             return;
         }
         // 欢迎信息
