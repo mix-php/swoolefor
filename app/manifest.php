@@ -7,7 +7,7 @@ return [
     'appName'    => 'SwooleFor',
 
     // 应用版本
-    'appVersion' => '1.1.6',
+    'appVersion' => '1.1.7',
 
     // 应用调试
     'appDebug'   => true,
@@ -93,6 +93,20 @@ return [
         [
             // 类路径
             'class' => \Mix\Log\StdoutHandler::class,
+        ],
+
+        // 事件调度器
+        [
+            // 名称
+            'name'            => 'event',
+            // 作用域
+            'scope'           => \Mix\Bean\BeanDefinition::SINGLETON,
+            // 类路径
+            'class'           => \Mix\Event\EventDispatcher::class,
+            // 构造函数注入
+            'constructorArgs' => [
+                \App\Listeners\CommandListener::class,
+            ],
         ],
 
     ],

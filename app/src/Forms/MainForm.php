@@ -20,11 +20,6 @@ class MainForm extends Validator
     /**
      * @var int
      */
-    public $daemon;
-
-    /**
-     * @var int
-     */
     public $noInotify;
 
     /**
@@ -55,7 +50,6 @@ class MainForm extends Validator
     {
         return [
             'exec'      => ['string', 'filter' => ['trim']],
-            'daemon'    => ['in', 'range' => [1, 0], 'strict' => true],
             'noInotify' => ['in', 'range' => [1, 0], 'strict' => true],
             'watch'     => ['string', 'filter' => ['trim']],
             'delay'     => ['integer', 'unsigned' => true],
@@ -71,7 +65,7 @@ class MainForm extends Validator
     public function scenarios()
     {
         return [
-            'main' => ['required' => ['exec'], 'optional' => ['daemon', 'noInotify', 'watch', 'delay', 'ext', 'signal']],
+            'main' => ['required' => ['exec'], 'optional' => ['noInotify', 'watch', 'delay', 'ext', 'signal']],
         ];
     }
 
