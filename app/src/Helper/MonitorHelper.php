@@ -35,10 +35,15 @@ class MonitorHelper
     public static function dir($cmd)
     {
         $slice = explode(' ', $cmd);
-        array_shift($slice);
-        $file = array_shift($slice); // 取第二个参数
-        if (!$file) {
-            return '';
+        // 循环获取文件
+        while (true) {
+            $file = array_shift($slice);
+            if (is_file($file)) {
+                break;
+            }
+            if (empty($slice)){
+                return '';
+            }
         }
         $dir = dirname($file);
         if (basename($dir) == 'bin') {

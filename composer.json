@@ -23,7 +23,8 @@
     "mix/log": "~2.1.0",
     "mix/validate": "~2.1.0",
     "mix/helper": "~2.1.0",
-    "mix/concurrent": "~2.1.0"
+    "mix/concurrent": "~2.1.0",
+    "mix/event": "~2.1.0"
   },
   "require-dev": {
     "swoole/ide-helper": "dev-master"
