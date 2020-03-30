@@ -66,11 +66,15 @@ class Executor
         // 输出信息
         $log = $this->log;
         $log->info("executor start, exec: [{$this->exec}]");
+        $args = array_values(array_filter(explode(' ', $this->exec)));
+        $file = array_shift($args);
+        if (!is_file($file)) {
+            $this->log->warning("invalid command [{$this->exec}]");
+            return;
+        }
         // fork进程
-        $process = new Process(function (Process $process) {
-            $args = array_values(array_filter(explode(' ', $this->exec)));
-            $file = array_shift($args);
-            is_file($file) and $process->exec($file, $args);
+        $process = new Process(function (Process $process) use ($file, $args) {
+            $process->exec($file, $args);
         });
         $process->start();
         $this->pid = $process->pid;
@@ -123,6 +127,9 @@ class Executor
         $signal   = (int)$this->signal;
         $waitTime = 60 * 1000; // 超时时间
         // 标记退出
+        if (!$pid) {
+            return;
+        }
         $this->quit = true;
         // kill进程
         $log->info('executor stop');

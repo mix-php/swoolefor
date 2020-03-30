@@ -15,28 +15,22 @@ SwooleFor 的定位就如同 PHP 版本的 [nodemon](https://www.npmjs.com/packa
 
 ## 下载 (Download)
 
+- [swoolefor.phar v1.1.8](https://github.com/mix-php/swoolefor/releases/download/v1.1.8/swoolefor.phar)
 - [swoolefor.phar v1.1.7](https://github.com/mix-php/swoolefor/releases/download/v1.1.7/swoolefor.phar)
 - [swoolefor.phar v1.1.6](https://github.com/mix-php/swoolefor/releases/download/v1.1.6/swoolefor.phar)
-- [swoolefor.phar v1.1.5](https://github.com/mix-php/swoolefor/releases/download/v1.1.5/swoolefor.phar)
 
 ## 使用 (Usage)
 
 执行脚本命令：
 
 ```
-php swoolefor.phar --exec="php app.php arg..."
-```
-
-如果 `disable_functions` 禁用了 `proc_open`、`exec` 方法，按如下方法执行：
-
-```
-php -d disable_functions='' swoolefor.phar --exec="php app.php arg..."
+php swoolefor.phar --exec="/usr/bin/php /data/app.php arg..."
 ```
 
 当系统环境对 `inotify` 扩展无法支持时，可通过切换为文件扫描的方式捕获代码更新：
 
 ```
-php swoolefor.phar --exec="php app.php arg..." --no-inotify
+php swoolefor.phar --exec="/usr/bin/php /data/app.php arg..." --no-inotify
 ```
 
 启动成功：
@@ -48,7 +42,7 @@ php swoolefor.phar --exec="php app.php arg..." --no-inotify
  ___/ / |/ |/ / /_/ / /_/ / /  __/ __/ / /_/ / /    
 /____/|__/|__/\____/\____/_/\___/_/    \____/_/  Version: 1.1.3, Swoole: 4.4.5, Use: inotify
 
-[info] 2019-08-14 11:51:05.937 <920> [message] executor start, exec: [php /data/bin/mix-httpd start]
+[info] 2019-08-14 11:51:05.937 <920> [message] executor start, exec: [/usr/bin/php /data/bin/mix.php web:start]
 [info] 2019-08-14 11:51:05.938 <920> [message] fork sub process, pid: 921
 [info] 2019-08-14 11:51:05.939 <920> [message] monitor start
 [info] 2019-08-14 11:51:05.939 <920> [message] watch: /data
@@ -76,13 +70,13 @@ php swoolefor.phar --help
 `--exec` 内部可以是任何命令，必须为**绝对路径**，必须为**前台执行的常驻程序** (否则会导致不断fork进程)
 
 ```
-php swoolefor.phar --exec="php app.php"
+php swoolefor.phar --exec="/usr/bin/php /data/app.php"
 ```
 
 也可使用短参数
 
 ```
-php swoolefor.phar -e "php app.php"
+php swoolefor.phar -e "/usr/bin/php /data/app.php"
 ```
 
 ## 执行非 PHP 脚本
@@ -90,13 +84,13 @@ php swoolefor.phar -e "php app.php"
 - node
 
 ```
-php swoolefor.phar --exec="node app.js"
+php swoolefor.phar --exec="/usr/bin/node /data/app.js"
 ```
 
 - python
 
 ```
-php swoolefor.phar --exec="python app.py"
+php swoolefor.phar --exec="/usr/bin/python /data/app.py"
 ```
 
 ## 在后台执行
@@ -104,13 +98,13 @@ php swoolefor.phar --exec="python app.py"
 SwooleFor 本身可以在后台执行，这样可以脱离终端，增加 `--daemon` 即可。
 
 ```
-php swoolefor.phar --exec="node app.js" --daemon
+php swoolefor.phar --exec="/usr/bin/php /data/app.php" --daemon
 ```
 
 也可使用短参数
 
 ```
-php swoolefor.phar --exec="node app.js" -d
+php swoolefor.phar --exec="/usr/bin/php /data/app.php" -d
 ```
 
 ## 不使用 inotify 
@@ -118,7 +112,7 @@ php swoolefor.phar --exec="node app.js" -d
 当系统环境对 `inotify` 扩展无法支持时，可通过切换为文件扫描的方式捕获代码更新。
 
 ```
-php swoolefor.phar --exec="node app.js" --no-inotify
+php swoolefor.phar --exec="/usr/bin/php /data/app.php" --no-inotify
 ```
 
 ## 指定监控目录
@@ -127,13 +121,13 @@ php swoolefor.phar --exec="node app.js" --no-inotify
 
 ```
 // 会自动监控 /data 目录
-php swoolefor.phar --exec="php /data/bin/app.php"
+php swoolefor.phar --exec="/usr/bin/php /data/bin/app.php"
 ```
 
 指定监控其他目录
 
 ```
-php swoolefor.phar --exec="php app.php" --watch=/tmp
+php swoolefor.phar --exec="/usr/bin/php /data/app.php" --watch=/tmp
 ```
 
 ## 推迟执行重启
@@ -143,7 +137,7 @@ php swoolefor.phar --exec="php app.php" --watch=/tmp
 `--delay` 默认为 `3s`
 
 ```
-php swoolefor.phar --exec="php app.php" --delay=5
+php swoolefor.phar --exec="/usr/bin/php /data/app.php" --delay=5
 ```
 
 ## 指定观察的扩展名
@@ -151,7 +145,7 @@ php swoolefor.phar --exec="php app.php" --delay=5
 `--ext` 默认为 `php,json`，当需要观察其他扩展名时可配置。
 
 ```
-php swoolefor.phar --exec="php app.php" --ext=php,json,ini
+php swoolefor.phar --exec="/usr/bin/php /data/app.php" --ext=php,json,ini
 ```
 
 ## 重启时发送的信号
@@ -163,7 +157,7 @@ php swoolefor.phar --exec="php app.php" --ext=php,json,ini
 `--signal` 默认为 `15`
 
 ```
-php swoolefor.phar --exec="php app.php" --signal=1
+php swoolefor.phar --exec="/usr/bin/php /data/app.php" --signal=1
 ```
 
 常用的信号表
@@ -180,31 +174,31 @@ php swoolefor.phar --exec="php app.php" --signal=1
 - MixPHP: 
 
 ```
-php swoolefor.phar --exec="php /data/bin/mix.php http:start"
+php swoolefor.phar --exec="/usr/bin/php /data/bin/mix.php web:start"
 ```
 
 - Hyperf
 
 ```
-php swoolefor.phar --exec="php /data/bin/hyperf start"
+php swoolefor.phar --exec="/usr/bin/php /data/bin/hyperf start"
 ```
 
 - Swoft:
 
 ```
-php swoolefor.phar --exec="php /data/bin/swoft http:start"
+php swoolefor.phar --exec="/usr/bin/php /data/bin/swoft http:start"
 ```
 
 - EasySwoole: 
 
 ```
-php swoolefor.phar --exec="php /data/bin/easyswoole start"
+php swoolefor.phar --exec="/usr/bin/php /data/bin/easyswoole start"
 ```
 
 - laravel-s
 
 ```
-php swoolefor.phar --exec="php /data/bin/laravels start"
+php swoolefor.phar --exec="/usr/bin/php /data/bin/laravels start"
 ```
 
 ## License

@@ -78,6 +78,7 @@ class InotifyMonitor
         $log->info("delay: {$this->delay}s");
         $log->info("ext: " . implode(',', $this->ext));
         // 监听全部目录
+        $log->info("scanning folder ...");
         $folders      = MonitorHelper::folders($this->dir);
         $this->notify = $notify = inotify_init();
         foreach ($folders as $folder) {
@@ -86,6 +87,7 @@ class InotifyMonitor
                 throw new \RuntimeException("fail to watch {$folder}");
             }
         }
+        $log->info('watch folders: {folders}', ['folders' => count($folders)]);
         // 读取变化
         stream_set_blocking($notify, 0);
         $timer = Timer::new(false);
