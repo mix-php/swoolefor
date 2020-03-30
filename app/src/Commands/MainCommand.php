@@ -8,7 +8,6 @@ use App\Monitor\FileScanMonitor;
 use App\Monitor\InotifyMonitor;
 use App\Forms\MainForm;
 use Mix\Console\CommandLine\Flag;
-use Swoole\Coroutine\Channel;
 use Mix\Helper\ProcessHelper;
 
 /**
@@ -18,6 +17,16 @@ use Mix\Helper\ProcessHelper;
  */
 class MainCommand
 {
+
+    /**
+     * @var FileScanMonitor|InotifyMonitor
+     */
+    public $monitor;
+
+    /**
+     * @var Executor
+     */
+    public $executor;
 
     /**
      * 主函数
@@ -53,38 +62,34 @@ class MainCommand
         }
         // 欢迎信息
         static::welcome($model->noInotify);
-        // 执行
-        xgo(function () use ($model) {
-            $quit = new Channel();
-            // 捕获信号
-            ProcessHelper::signal([SIGHUP, SIGINT, SIGTERM, SIGQUIT], function ($signal) use ($quit) {
-                $quit->push(true);
-                ProcessHelper::signal([SIGHUP, SIGINT, SIGTERM, SIGQUIT], null);
-            });
-            // 启动执行器
-            $executor = new Executor([
-                'exec'   => $model->exec,
-                'signal' => $model->signal,
-            ]);
-            $executor->start();
-            // 启动监控器
-            $class = InotifyMonitor::class;
-            if ($model->noInotify) {
-                $class = FileScanMonitor::class;
-            }
-            /** @var InotifyMonitor|FileScanMonitor $monitor */
-            $monitor = new $class([
-                'dir'      => $model->watch ?: MonitorHelper::dir($model->exec),
-                'delay'    => $model->delay,
-                'ext'      => MonitorHelper::ext($model->ext),
-                'executor' => $executor,
-            ]);
-            $monitor->start();
-            // 监听退出
-            $quit->pop();
-            $monitor->stop();
-            $executor->stop();
+        // 捕获信号
+        ProcessHelper::signal([SIGCHLD], function ($signal) {
+            $this->executor and $this->executor->wait();
         });
+        ProcessHelper::signal([SIGHUP, SIGINT, SIGTERM, SIGQUIT], function ($signal) {
+            $this->monitor and $this->monitor->stop();
+            $this->executor and $this->executor->stop();
+            ProcessHelper::signal([SIGHUP, SIGINT, SIGTERM, SIGQUIT], null);
+        });
+        // 启动执行器
+        $executor = $this->executor = new Executor([
+            'exec'   => $model->exec,
+            'signal' => $model->signal,
+        ]);
+        $executor->start();
+        // 启动监控器
+        $class = InotifyMonitor::class;
+        if ($model->noInotify) {
+            $class = FileScanMonitor::class;
+        }
+        /** @var InotifyMonitor|FileScanMonitor $monitor */
+        $monitor = $this->monitor = new $class([
+            'dir'      => $model->watch ?: MonitorHelper::dir($model->exec),
+            'delay'    => $model->delay,
+            'ext'      => MonitorHelper::ext($model->ext),
+            'executor' => $executor,
+        ]);
+        $monitor->start();
     }
 
     /**

@@ -7,17 +7,17 @@ return [
     'appName'    => 'SwooleFor',
 
     // 应用版本
-    'appVersion' => '1.1.7',
+    'appVersion' => '1.1.8',
 
     // 应用调试
-    'appDebug'   => true,
+    'appDebug'   => false,
 
     // 基础路径
     'basePath'   => str_replace(['phar://', '/'], ['', DIRECTORY_SEPARATOR], dirname(dirname(__DIR__))),
 
     // 协程配置
     'coroutine'  => [
-        true,
+        false,
         [
             'max_coroutine' => 300000,
             'hook_flags'    => 1879048191 ^ 256, // SWOOLE_HOOK_ALL ^ SWOOLE_HOOK_FILE,

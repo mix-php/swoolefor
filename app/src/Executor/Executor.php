@@ -6,6 +6,7 @@ use Mix\Bean\BeanInjector;
 use Mix\Concurrent\Timer;
 use Mix\Helper\ProcessHelper;
 use Mix\Log\Logger;
+use Swoole\Process;
 
 /**
  * Class Executor
@@ -41,13 +42,15 @@ class Executor
     protected $quit = false;
 
     /**
-     * @var Timer
+     * @var float
      */
-    protected $timer;
+    protected $forkTime;
 
     /**
      * Executor constructor.
      * @param $config
+     * @throws \PhpDocReader\AnnotationException
+     * @throws \ReflectionException
      */
     public function __construct($config)
     {
@@ -63,56 +66,37 @@ class Executor
         // 输出信息
         $log = $this->log;
         $log->info("executor start, exec: [{$this->exec}]");
-        xgo(function () use ($log) {
-            // fork进程
-            $descriptorspec = [
-                0 => ["pipe", "r"], // 标准输入，子进程从此管道中读取数据
-                1 => ["pipe", "w"], // 标准输出，子进程向此管道中写入数据
-                2 => ["pipe", "w"], // 标准错误
-            ];
-            $process        = proc_open($this->exec, $descriptorspec, $pipes);
-            $status         = proc_get_status($process);
-            $this->pid      = $status['pid'];
-
-            // 获取真实pid
-            // 在 Linux 的 Ubuntu(Debian) 系统中 proc_open 会使用 sh -c 中转执行命令，因此 proc_get_status 获取不到真实的 pid
-            // 在 Darwin 中因为 ps --ppid 无法使用，并且 proc_open 不会 sh -c 中转，因此不可执行以下代码
-            // 在 WINNT/WIN32/Windows/CYGWIN_NT 中因无 ps 命令，因此不可执行以下代码
-            if (stripos(PHP_OS, 'win') === false) {
-                $this->timer and $this->timer->clear();
-                $timer = Timer::new();
-                $timer->tick(1000, function () use ($status, $log, $timer) {
-                    $output = null;
-                    exec(sprintf('ps --ppid %s', $status['pid']), $output);
-                    $output = array_filter($output);
-                    if (!empty($output[1])) {
-                        preg_match_all('/[0-9]+/', $output[1], $matches);
-                        if (isset($matches[0][0])) {
-                            $this->pid = $matches[0][0];
-                            $log->info('scan to real sub process pid: {pid}', ['pid' => $this->pid]);
-                            $timer->clear();
-                        }
-                    }
-                });
-                $this->timer = $timer;
-            }
-
-            $log->info('fork sub process, pid: {pid}', ['pid' => $this->pid]);
-            $forkTime = static::microtime();
-            // 等待进程终止
-            do {
-                stream_get_contents($pipes[2]);
-                $status = proc_get_status($process);
-            } while ($status['running']);
-            $log->info('sub process exit, pid: {pid}, exitcode: {exitcode}, termsig: {termsig}, stopsig: {stopsig}', ['pid' => $this->pid, 'exitcode' => $status['exitcode'], 'termsig' => $status['termsig'], 'stopsig' => $status['stopsig']]);
-            // 进程终止太快处理
-            if (static::microtime() - $forkTime < 0.5) {
-                $log->warning('sub process exit too fast, sleep 2 seconds');
-                sleep(2);
-            }
-            // 重新fork进程
-            $this->quit or $this->start();
+        // fork进程
+        $process        = new Process(function (Process $process) {
+            $args = array_values(array_filter(explode(' ', $this->exec)));
+            $file = array_shift($args);
+            is_file($file) and $process->exec($file, $args);
         });
+        $process->start();
+        $this->pid = $process->pid;
+
+        $log->info('fork sub process, pid: {pid}', ['pid' => $this->pid]);
+        $this->forkTime = static::microtime();
+    }
+
+    /**
+     * Wait
+     */
+    public function wait()
+    {
+        $log = $this->log;
+        while ($status = Process::wait(false)) {
+            $log->info('sub process exit, pid: {pid}, exitcode: {exitcode}, stopsig: {stopsig}', ['pid' => $status['pid'], 'exitcode' => $status['code'], 'stopsig' => $status['signal']]);
+        }
+        // 进程终止太快处理
+        if (static::microtime() - $this->forkTime < 0.5) {
+            $log->warning('sub process exit too fast, sleep 2 seconds');
+            $timer = Timer::new();
+            $timer->after(2000, function () {
+                // 重新fork进程
+                $this->quit or $this->start();
+            });
+        }
     }
 
     /**
@@ -133,23 +117,26 @@ class Executor
         $log      = $this->log;
         $pid      = $this->pid;
         $signal   = (int)$this->signal;
-        $waitTime = 60 * 1000000; // 超时时间
+        $waitTime = 60 * 1000; // 超时时间
         // 标记退出
         $this->quit = true;
         // kill进程
         $log->info('executor stop');
         $log->info('signal to process, pid: {pid}, signal: {signal}', ['pid' => $pid, 'signal' => $signal]);
         ProcessHelper::kill($pid, $signal);
-        while (static::isRunning($pid) && $waitTime > 0) {
-            $interval = 100000;
-            usleep($interval);
-            $waitTime -= $interval;
-        }
-        if (static::isRunning($pid)) {
-            $log->info('executor stop timeout, kill -9 pid: {pid}', ['pid' => $this->pid]);
-            ProcessHelper::kill($pid, SIGKILL);
-        }
-        $this->timer and $this->timer->clear();
+        // 判断执行状态
+        $timer = Timer::new();
+        $timer->tick(200, function () use ($timer, $pid, &$waitTime) {
+            if (static::isRunning($pid) && $waitTime > 0) {
+                $waitTime -= 200;
+            } else {
+                if (static::isRunning($pid)) {
+                    $this->log->info('executor stop timeout, kill -9 pid: {pid}', ['pid' => $this->pid]);
+                    ProcessHelper::kill($pid, SIGKILL);
+                }
+                $timer->clear();
+            }
+        });
     }
 
     /**

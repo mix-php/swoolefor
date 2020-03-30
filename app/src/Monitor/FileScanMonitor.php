@@ -42,11 +42,6 @@ class FileScanMonitor
     protected $log;
 
     /**
-     * @var bool
-     */
-    protected $quit = false;
-
-    /**
      * @var Timer
      */
     protected $timer;
@@ -57,8 +52,10 @@ class FileScanMonitor
     protected $hash = [];
 
     /**
-     * Executor constructor.
+     * FileScanMonitor constructor.
      * @param $config
+     * @throws \PhpDocReader\AnnotationException
+     * @throws \ReflectionException
      */
     public function __construct($config)
     {

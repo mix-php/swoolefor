@@ -3,6 +3,7 @@
 namespace App\Monitor;
 
 use Mix\Bean\BeanInjector;
+use Mix\Concurrent\Timer;
 use Mix\Log\Logger;
 use App\Executor\Executor;
 use App\Helper\MonitorHelper;
@@ -46,13 +47,15 @@ class InotifyMonitor
     protected $notify;
 
     /**
-     * @var bool
+     * @var Timer
      */
-    protected $quit = false;
+    protected $timer;
 
     /**
-     * Executor constructor.
+     * InotifyMonitor constructor.
      * @param $config
+     * @throws \PhpDocReader\AnnotationException
+     * @throws \ReflectionException
      */
     public function __construct($config)
     {
@@ -74,27 +77,28 @@ class InotifyMonitor
         $log->info("watch: {$this->dir}");
         $log->info("delay: {$this->delay}s");
         $log->info("ext: " . implode(',', $this->ext));
-        xgo(function () use ($log) {
-            // 监听全部目录
-            $folders      = MonitorHelper::folders($this->dir);
-            $this->notify = $notify = inotify_init();
-            foreach ($folders as $folder) {
-                $ret = inotify_add_watch($notify, $folder, IN_CLOSE_WRITE | IN_CREATE | IN_DELETE);
-                if (!$ret) {
-                    throw new \RuntimeException("fail to watch {$folder}");
-                }
+        // 监听全部目录
+        $folders      = MonitorHelper::folders($this->dir);
+        $this->notify = $notify = inotify_init();
+        foreach ($folders as $folder) {
+            $ret = inotify_add_watch($notify, $folder, IN_CLOSE_WRITE | IN_CREATE | IN_DELETE);
+            if (!$ret) {
+                throw new \RuntimeException("fail to watch {$folder}");
             }
-            // 读取变化
-            stream_set_blocking($notify, 0);
+        }
+        // 读取变化
+        stream_set_blocking($notify, 0);
+        $timer = Timer::new();
+        $timer->tick(200, function () use ($timer, $notify) {
             while (true) {
                 try {
                     $files = inotify_read($notify);
                 } catch (\Throwable $e) {
-                    break;
+                    $timer->clear();
+                    return;
                 }
                 if (!$files) {
-                    sleep($this->delay);
-                    continue;
+                    return;
                 }
                 $fileChange   = false;
                 $folderChange = false;
@@ -112,10 +116,10 @@ class InotifyMonitor
                 }
                 if ($fileChange || $folderChange) {
                     if ($fileChange) {
-                        $log->info("notify: file changes");
+                        $this->log->info("notify: file changes");
                     }
                     if ($folderChange) {
-                        $log->info("notify: directory changes");
+                        $this->log->info("notify: directory changes");
                     }
                     $this->executor->restart();
                     if ($folderChange) {
@@ -123,9 +127,9 @@ class InotifyMonitor
                         break;
                     }
                 }
-                sleep($this->delay);
             }
         });
+        $this->timer = $timer;
     }
 
     /**
@@ -135,6 +139,7 @@ class InotifyMonitor
     {
         $this->log->info("monitor stop");
         $this->notify and fclose($this->notify);
+        $this->timer and $this->timer->clear();
     }
 
 }
