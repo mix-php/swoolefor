@@ -80,7 +80,7 @@ class FileScanMonitor
         // 初始化扫描
         $this->scan(true);
         // 定时扫描
-        $timer = Timer::new();
+        $timer = Timer::new(false);
         $timer->tick($this->delay * 1000, function () {
             if ($this->scan()) {
                 $this->log->info("file scan: file or directory changes");

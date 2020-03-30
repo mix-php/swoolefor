@@ -88,7 +88,7 @@ class InotifyMonitor
         }
         // 读取变化
         stream_set_blocking($notify, 0);
-        $timer = Timer::new();
+        $timer = Timer::new(false);
         $timer->tick(200, function () use ($timer, $notify) {
             while (true) {
                 try {

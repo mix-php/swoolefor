@@ -92,7 +92,7 @@ class Executor
         if (static::microtime() - $this->forkTime < 0.5) {
             $log->warning('sub process exit too fast, sleep 2 seconds');
             // 延迟fork
-            $timer = Timer::new();
+            $timer = Timer::new(false);
             $timer->after(2000, function () {
                 // 重新fork进程
                 $this->quit or $this->start();
@@ -129,7 +129,7 @@ class Executor
         $log->info('signal to process, pid: {pid}, signal: {signal}', ['pid' => $pid, 'signal' => $signal]);
         ProcessHelper::kill($pid, $signal);
         // 判断执行状态
-        $timer = Timer::new();
+        $timer = Timer::new(false);
         $timer->tick(200, function () use ($timer, $pid, &$waitTime) {
             if (static::isRunning($pid) && $waitTime > 0) {
                 $waitTime -= 200;
