@@ -67,7 +67,7 @@ class Executor
         $log = $this->log;
         $log->info("executor start, exec: [{$this->exec}]");
         // fork进程
-        $process        = new Process(function (Process $process) {
+        $process = new Process(function (Process $process) {
             $args = array_values(array_filter(explode(' ', $this->exec)));
             $file = array_shift($args);
             is_file($file) and $process->exec($file, $args);
@@ -91,12 +91,16 @@ class Executor
         // 进程终止太快处理
         if (static::microtime() - $this->forkTime < 0.5) {
             $log->warning('sub process exit too fast, sleep 2 seconds');
+            // 延迟fork
             $timer = Timer::new();
             $timer->after(2000, function () {
                 // 重新fork进程
                 $this->quit or $this->start();
             });
+            return;
         }
+        // 重新fork进程
+        $this->quit or $this->start();
     }
 
     /**

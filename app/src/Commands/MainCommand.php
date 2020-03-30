@@ -65,12 +65,12 @@ class MainCommand
         // 捕获信号
         ProcessHelper::signal([SIGCHLD], function ($signal) {
             $this->executor and $this->executor->wait();
-        });
+        }, false);
         ProcessHelper::signal([SIGHUP, SIGINT, SIGTERM, SIGQUIT], function ($signal) {
             $this->monitor and $this->monitor->stop();
             $this->executor and $this->executor->stop();
             ProcessHelper::signal([SIGHUP, SIGINT, SIGTERM, SIGQUIT], null);
-        });
+        }, false);
         // 启动执行器
         $executor = $this->executor = new Executor([
             'exec'   => $model->exec,
