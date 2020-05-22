@@ -5,7 +5,7 @@ namespace App\Executor;
 use Mix\Bean\BeanInjector;
 use Mix\Concurrent\Timer;
 use Mix\Helper\ProcessHelper;
-use Mix\Log\Logger;
+use Mix\Monolog\Logger;
 use Swoole\Process;
 
 /**

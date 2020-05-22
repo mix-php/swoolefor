@@ -4,7 +4,7 @@ namespace App\Monitor;
 
 use Mix\Bean\BeanInjector;
 use Mix\Concurrent\Timer;
-use Mix\Log\Logger;
+use Mix\Monolog\Logger;
 use App\Executor\Executor;
 use App\Helper\MonitorHelper;
 
