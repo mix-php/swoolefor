@@ -7,7 +7,7 @@ return [
     'appName'    => 'SwooleFor',
 
     // 应用版本
-    'appVersion' => '1.1.8',
+    'appVersion' => '1.2.0',
 
     // 应用调试
     'appDebug'   => false,
@@ -28,15 +28,15 @@ return [
     'commands'   => [
 
         \App\Commands\MainCommand::class,
-        'description' => "\tRun your swoole application",
-        'options'     => [
-            [['e', 'exec'], 'description' => 'Swoole application or other script start command'],
-            [['d', 'daemon'], 'description' => 'Run in the background'],
-            ['no-inotify', 'description' => "Do not use the inotify extension"],
-            ['watch', 'description' => "Watch code file directory"],
-            ['delay', 'description' => "File change delay processing (seconds)"],
-            ['ext', 'description' => "\tMonitor only changes to these extensions"],
-            ['signal', 'description' => "Send this signal to the process"],
+        'usage'   => "\tRun your swoole application",
+        'options' => [
+            [['e', 'exec'], 'usage' => 'Swoole application or other script start command'],
+            [['d', 'daemon'], 'usage' => 'Run in the background'],
+            ['no-inotify', 'usage' => "Do not use the inotify extension"],
+            ['watch', 'usage' => "Watch code file directory"],
+            ['delay', 'usage' => "File change delay processing (seconds)"],
+            ['ext', 'usage' => "\tMonitor only changes to these extensions"],
+            ['signal', 'usage' => "Send this signal to the process"],
         ],
 
     ],
@@ -64,41 +64,26 @@ return [
         // 日志
         [
             // 名称
-            'name'       => 'log',
+            'name'            => 'log',
             // 作用域
-            'scope'      => \Mix\Bean\BeanDefinition::SINGLETON,
+            'scope'           => \Mix\Bean\BeanDefinition::SINGLETON,
             // 类路径
-            'class'      => \Mix\Log\Logger::class,
-            // 属性注入
-            'properties' => [
-                // 日志记录级别
-                'levels'  => ['emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'info', 'debug'],
-                // 处理器
-                'handler' => ['ref' => \Mix\Log\MultiHandler::class],
-            ],
-        ],
-
-        // 日志处理器
-        [
-            // 类路径
-            'class'           => \Mix\Log\MultiHandler::class,
+            'class'           => \Mix\Monolog\Logger::class,
             // 构造函数注入
             'constructorArgs' => [
-                // 标准输出处理器
-                ['ref' => \Mix\Log\StdoutHandler::class],
+                // name
+                'MIX',
+                // handlers
+                [new \Mix\Monolog\Handler\ConsoleHandler],
+                // processors
+                [new \Monolog\Processor\PsrLogMessageProcessor],
             ],
-        ],
-
-        // 日志标准输出处理器
-        [
-            // 类路径
-            'class' => \Mix\Log\StdoutHandler::class,
         ],
 
         // 事件调度器
         [
             // 名称
-            'name'            => 'event',
+            'name'            => 'dispatcher',
             // 作用域
             'scope'           => \Mix\Bean\BeanDefinition::SINGLETON,
             // 类路径

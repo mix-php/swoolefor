@@ -35,6 +35,7 @@ class MonitorHelper
     public static function dir($cmd)
     {
         $slice = explode(' ', $cmd);
+        array_shift($slice);
         // 循环获取文件
         while (true) {
             $file = array_shift($slice);

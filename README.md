@@ -6,7 +6,7 @@ Monitor for any changes in your swoole application and automatically restart the
 
 SwooleFor 的定位就如同 PHP 版本的 [nodemon](https://www.npmjs.com/package/nodemon), [node-dev](https://www.npmjs.com/package/node-dev)
 
-该项目使用 [mix-phar](https://github.com/mix-php/mix-phar) 开发
+该项目使用 [Mix Phar Skeleton](https://github.com/mix-php/mix-phar-skeleton) 开发
 
 ## 依赖扩展 (Depend extensions)
 
@@ -15,9 +15,8 @@ SwooleFor 的定位就如同 PHP 版本的 [nodemon](https://www.npmjs.com/packa
 
 ## 下载 (Download)
 
-- [swoolefor.phar v1.1.8](https://github.com/mix-php/swoolefor/releases/download/v1.1.8/swoolefor.phar)
+- [swoolefor.phar v1.2.0](https://github.com/mix-php/swoolefor/releases/download/v1.2.0/swoolefor.phar)
 - [swoolefor.phar v1.1.7](https://github.com/mix-php/swoolefor/releases/download/v1.1.7/swoolefor.phar)
-- [swoolefor.phar v1.1.6](https://github.com/mix-php/swoolefor/releases/download/v1.1.6/swoolefor.phar)
 
 ## 使用 (Usage)
 
