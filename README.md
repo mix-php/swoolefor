@@ -32,16 +32,17 @@ php swoolefor.phar --exec="/usr/bin/php /data/app.php arg..."
 php swoolefor.phar --exec="/usr/bin/php /data/app.php arg..." --no-inotify
 ```
 
-启动成功：
+启动范例：
 
 ```
+$ php swoolefor.phar --exec="/usr/bin/php /data/bin/mix.php web"
    _____                     __     ______          
   / ___/      ______  ____  / /__  / ____/___  _____
   \__ \ | /| / / __ \/ __ \/ / _ \/ /_  / __ \/ ___/
  ___/ / |/ |/ / /_/ / /_/ / /  __/ __/ / /_/ / /    
 /____/|__/|__/\____/\____/_/\___/_/    \____/_/  Version: 1.1.3, Swoole: 4.4.5, Use: inotify
 
-[info] 2019-08-14 11:51:05.937 <920> [message] executor start, exec: [/usr/bin/php /data/bin/mix.php web:start]
+[info] 2019-08-14 11:51:05.937 <920> [message] executor start, exec: [/usr/bin/php /data/bin/mix.php web]
 [info] 2019-08-14 11:51:05.938 <920> [message] fork sub process, pid: 921
 [info] 2019-08-14 11:51:05.939 <920> [message] monitor start
 [info] 2019-08-14 11:51:05.939 <920> [message] watch: /data
@@ -173,7 +174,7 @@ php swoolefor.phar --exec="/usr/bin/php /data/app.php" --signal=1
 - MixPHP: 
 
 ```
-php swoolefor.phar --exec="/usr/bin/php /data/bin/mix.php web:start"
+php swoolefor.phar --exec="/usr/bin/php /data/bin/mix.php web"
 ```
 
 - Hyperf
