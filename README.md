@@ -20,13 +20,13 @@ SwooleFor 的定位就如同 PHP 版本的 [nodemon](https://www.npmjs.com/packa
 
 ## 使用 (Usage)
 
-执行脚本命令：
+执行脚本命令，`--exec` 内部的文件路径必须为**绝对路径**：
 
 ```
 php swoolefor.phar --exec="/usr/bin/php /data/app.php arg..."
 ```
 
-当系统环境对 `inotify` 扩展无法支持时，可通过切换为文件扫描的方式捕获代码更新：
+当系统环境对 `inotify` 扩展无法支持时，**如：虚拟机挂载目录、MacOS 系统**，可通过切换为文件扫描的方式捕获代码更新：
 
 ```
 php swoolefor.phar --exec="/usr/bin/php /data/app.php arg..." --no-inotify
