@@ -7,7 +7,7 @@ return [
     'appName'    => 'SwooleFor',
 
     // 应用版本
-    'appVersion' => '1.2.0',
+    'appVersion' => '1.2.2',
 
     // 应用调试
     'appDebug'   => false,

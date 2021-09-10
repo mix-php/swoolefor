@@ -1,5 +1,3 @@
-注意：由于兼容性问题，`Swoole >= 4.6` 将无法使用，同时由于 PHP 实在不适合该类型的项目，本项目将不再更新，后续 `openmix.org` 会推出 golang 版本来取代该功能。
-
 ## SwooleFor
 
 监控你的 Swoole 程序文件变化并自动重启服务器 - 适用于开发
@@ -17,9 +15,7 @@ SwooleFor 的定位就如同 PHP 版本的 [nodemon](https://www.npmjs.com/packa
 
 ## 下载 (Download)
 
-- [swoolefor.phar v1.2.1](https://github.com/mix-php/swoolefor/releases/download/v1.2.1/swoolefor.phar)
-- [swoolefor.phar v1.2.0](https://github.com/mix-php/swoolefor/releases/download/v1.2.0/swoolefor.phar)
-- [swoolefor.phar v1.1.7](https://github.com/mix-php/swoolefor/releases/download/v1.1.7/swoolefor.phar)
+- [swoolefor.phar v1.2.2](https://github.com/mix-php/swoolefor/releases/download/v1.2.2/swoolefor.phar)
 
 ## 使用 (Usage)
 
